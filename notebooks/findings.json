@@ -1,0 +1,213 @@
+{
+  "sentiment_counts": {
+    "positive": 25000,
+    "negative": 25000
+  },
+  "avg_length_by_sentiment": {
+    "negative": 1294.06436,
+    "positive": 1324.79768
+  },
+  "top_positive_words": [
+    [
+      "/><br",
+      48976
+    ],
+    [
+      "film",
+      29367
+    ],
+    [
+      "movie",
+      26681
+    ],
+    [
+      "have",
+      24169
+    ],
+    [
+      "they",
+      17669
+    ],
+    [
+      "like",
+      16331
+    ],
+    [
+      "very",
+      15791
+    ],
+    [
+      "it's",
+      15574
+    ],
+    [
+      "about",
+      15557
+    ],
+    [
+      "some",
+      13978
+    ]
+  ],
+  "top_negative_words": [
+    [
+      "/><br",
+      51998
+    ],
+    [
+      "movie",
+      34811
+    ],
+    [
+      "have",
+      30254
+    ],
+    [
+      "film",
+      25719
+    ],
+    [
+      "they",
+      23191
+    ],
+    [
+      "like",
+      20950
+    ],
+    [
+      "just",
+      20544
+    ],
+    [
+      "about",
+      16841
+    ],
+    [
+      "some",
+      16187
+    ],
+    [
+      "it's",
+      15638
+    ]
+  ],
+  "visualizations": [
+    {
+      "id": 1,
+      "style": "Film Noir",
+      "title": "Sentiment Distribution: Light vs Dark",
+      "description": "High contrast visualization showing positive/negative review split",
+      "data": "sentiment_counts"
+    },
+    {
+      "id": 2,
+      "style": "Studio Ghibli",
+      "title": "Review Length Distribution",
+      "description": "Soft, flowing visualization of review character counts",
+      "data": "review_length"
+    },
+    {
+      "id": 3,
+      "style": "Wes Anderson",
+      "title": "Top Words: Positive vs Negative",
+      "description": "Symmetrical comparison of most frequent words",
+      "data": "top_words"
+    },
+    {
+      "id": 4,
+      "style": "Blade Runner",
+      "title": "Word Count vs Sentiment",
+      "description": "Neon scatter plot showing review length patterns",
+      "data": "word_count"
+    },
+    {
+      "id": 5,
+      "style": "Star Wars",
+      "title": "Epic Keyword Universe",
+      "description": "Bold visualization of top 20 keywords across all reviews",
+      "data": "all_top_words"
+    }
+  ],
+  "all_top_words": [
+    [
+      "/><br",
+      100974
+    ],
+    [
+      "movie",
+      61492
+    ],
+    [
+      "film",
+      55086
+    ],
+    [
+      "have",
+      54423
+    ],
+    [
+      "they",
+      40860
+    ],
+    [
+      "like",
+      37281
+    ],
+    [
+      "just",
+      34259
+    ],
+    [
+      "about",
+      32398
+    ],
+    [
+      "it's",
+      31212
+    ],
+    [
+      "some",
+      30165
+    ],
+    [
+      "what",
+      28008
+    ],
+    [
+      "very",
+      26908
+    ],
+    [
+      "when",
+      26904
+    ],
+    [
+      "there",
+      26079
+    ],
+    [
+      "more",
+      25869
+    ],
+    [
+      "would",
+      23807
+    ],
+    [
+      "even",
+      23681
+    ],
+    [
+      "good",
+      23467
+    ],
+    [
+      "their",
+      22604
+    ],
+    [
+      "only",
+      22588
+    ]
+  ]
+}
