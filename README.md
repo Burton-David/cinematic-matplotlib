@@ -1,5 +1,8 @@
 # Cinestyle
 
+![Python](https://img.shields.io/badge/python-3.7+-blue.svg)
+![License](https://img.shields.io/badge/license-MIT-green.svg)
+
 Transform your data visualizations with cinematic aesthetics inspired by iconic films. Create stunning matplotlib charts styled after Film Noir, Studio Ghibli, Wes Anderson, Blade Runner, and Star Wars.
 
 ![Film Noir](images/01_noir_sentiment.png)
