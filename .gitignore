@@ -33,3 +33,6 @@ examples/*.png
 quickstart_*.png
 *.mplstyle
 *.cube
+
+# Input datasets used for examples; not part of the package
+data/*.csv
