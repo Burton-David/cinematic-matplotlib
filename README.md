@@ -6,144 +6,172 @@
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![Linter: ruff](https://img.shields.io/badge/linter-ruff-261230.svg)](https://github.com/astral-sh/ruff)
 
-Cinematic matplotlib styling inspired by iconic films — Film Noir, Studio Ghibli,
-Wes Anderson, Blade Runner, and Star Wars — plus a small API for defining and
-reusing your own brand. Same data, cinematic finish:
+Cinematic matplotlib theming, done with color science. Ten film-inspired themes
+that are **beautiful, correct, and accessible** — and an API for defining your
+own brand. Same data, cinematic finish:
 
 ![Before and after](images/hero_before_after.png)
 
-## Why
+## Why this exists
 
-Every style is just a bundle of matplotlib rcParams. cinestyle gives you that
-bundle three ways — scoped to a `with` block, registered as a named style sheet,
-or exported to a `matplotlibrc` file — so styling never leaks into the rest of
-your session and a brand you define once works everywhere.
+Most "pretty matplotlib" packages pick colors by eye and only look right on the
+one chart in their README. cinestyle is built differently:
+
+- **Perceptually derived.** Each theme's categorical palette and its sequential
+  and diverging colormaps are computed in a perceptual color space (OKLCH /
+  CAM02-UCS) from a few sourced "hero" colors — not hand-waved. Sequential maps
+  have monotonic lightness; diverging maps are symmetric.
+- **Works on every chart type.** cinestyle only sets rcParams and registers
+  colormaps. Lines, bars, scatter, hist, boxplots, pies, heatmaps, errorbars —
+  all themed. You never switch themes mid-deck.
+- **Accessible by design.** Any palette can be checked for color-vision
+  deficiency and contrast, and repaired into a colorblind-safe variant.
+- **Reproducible.** Themes ship their fonts (SIL OFL), so a chart looks the same
+  on every machine.
+- **Cinematic extras.** A neon glow for the dark themes, and film-look LUTs you
+  can apply to image plots and export as `.cube`.
 
 ## Install
-
-Not yet on PyPI. Install from the repository:
 
 ```bash
 pip install git+https://github.com/Burton-David/cinematic-matplotlib.git
 ```
 
-For development (tests, linters, type checker):
-
-```bash
-git clone https://github.com/Burton-David/cinematic-matplotlib.git
-cd cinematic-matplotlib
-pip install -e ".[dev]"
-```
-
-Requires Python 3.10+, matplotlib 3.6+, and numpy 1.23+.
+Optional extras: `cinestyle[a11y]` (color-vision checks), `cinestyle[luts]`
+(reading external `.cube` LUTs). For development: `pip install -e ".[dev]"`.
+Requires Python 3.10+.
 
 ## Quick start
-
-**1. Scoped context manager** — the recommended path; global rcParams are
-restored when the block exits:
 
 ```python
 import matplotlib.pyplot as plt
 import numpy as np
-from cinestyle import BladeRunner
+import cinestyle
 
 x = np.linspace(0, 12, 200)
-with BladeRunner().use():
+
+# 1. Scoped — styling is restored when the block exits
+with cinestyle.use("blade_runner"):
     fig, ax = plt.subplots()
-    ax.plot(x, np.sin(x))
-    ax.plot(x, np.cos(x))
-    ax.set_title("CITY SIGNALS")
-```
+    for i in range(4):
+        ax.plot(x, np.sin(x + i * 0.6) + i * 0.4)
+    cinestyle.add_glow(ax)          # the neon glow
 
-**2. Registered style sheet** — use the styles like any matplotlib style:
+# 2. Registered style sheet — use it like any matplotlib style
+cinestyle.register()
+plt.style.use("cinestyle-dune")
 
-```python
-import cinestyle
-import matplotlib.pyplot as plt
-
-cinestyle.register()                      # adds "cinestyle-noir", "cinestyle-ghibli", ...
-plt.style.use("cinestyle-star_wars")
-```
-
-**3. Signature plotting helpers** — each style ships distinctive chart types:
-
-```python
-from cinestyle import FilmNoir
-
-noir = FilmNoir()
-noir.plot_shadows(["Opening", "Betrayal", "Finale"], [6, 8, 7], [3, 8, 5])
+# 3. The Theme object itself — palette, colormaps, and more
+theme = cinestyle.get_theme("ghibli")
+plt.imshow(data, cmap=theme.sequential)
 ```
 
 ## Gallery
 
-Every image below is regenerated from deterministic synthetic data by
-`python scripts/generate_gallery.py` — there are no hand-edited screenshots.
+Every image is regenerated from deterministic data by
+`python scripts/generate_gallery.py` — no hand-edited screenshots.
 
 | | |
 |---|---|
-| ![Film Noir](images/noir.png) | ![Studio Ghibli](images/ghibli.png) |
-| ![Wes Anderson](images/wes_anderson.png) | ![Blade Runner](images/blade_runner.png) |
-| ![Star Wars](images/star_wars.png) | |
+| ![noir](images/noir.png) | ![ghibli](images/ghibli.png) |
+| ![wes_anderson](images/wes_anderson.png) | ![blade_runner](images/blade_runner.png) |
+| ![star_wars](images/star_wars.png) | ![matrix](images/matrix.png) |
+| ![dune](images/dune.png) | ![fury_road](images/fury_road.png) |
+| ![kill_bill](images/kill_bill.png) | ![in_the_mood](images/in_the_mood.png) |
 
-## The styles
+## The themes
 
-| Style | Look | Signature methods |
+| Theme | Film | Font |
 |---|---|---|
-| `FilmNoir` | High-contrast reds and whites on near-black | `plot_shadows`, `plot_contrast` |
-| `Ghibli` | Soft, pastoral palettes; serif type | `plot_landscape`, `plot_flow` |
-| `WesAnderson` | Framed, symmetrical layouts in pastels | `plot_symmetry`, `plot_grid` |
-| `BladeRunner` | Neon cyan and magenta on deep black | `plot_neon_lines`, `plot_matrix` |
-| `StarWars` | Bold gold and blue on pure black | `plot_balance`, `plot_galaxy` |
+| `noir` | Film noir / chiaroscuro | Oswald |
+| `ghibli` | Studio Ghibli | EB Garamond |
+| `wes_anderson` | Wes Anderson | Jost |
+| `blade_runner` | Blade Runner (neon-noir) | Orbitron |
+| `star_wars` | Star Wars | Oswald |
+| `matrix` | The Matrix | Share Tech Mono |
+| `dune` | Dune (Villeneuve) | Space Grotesk |
+| `fury_road` | Mad Max: Fury Road | Anton |
+| `kill_bill` | Kill Bill | Bebas Neue |
+| `in_the_mood` | In the Mood for Love | EB Garamond |
 
-Each instance exposes its semantic `colors` and the `palette` that drives the
-color cycle, and every style provides the common helpers `plot_line`,
-`plot_bar`, `plot_scatter`, `plot_histogram`, `plot_heatmap`, and `plot_area`.
-Pass an existing `ax=` to style it in place, or omit it to get a fully styled
-figure back.
+Each `Theme` exposes its `palette`, `sequential` and `diverging` colormaps,
+`heroes`, and chrome. `cinestyle.list_themes()` lists them all.
+
+## Color, done right
+
+The palette and colormaps are derived from the hero colors, preserving the
+film's mood (hue identity and chroma) while spacing colors perceptually:
+
+```python
+theme = cinestyle.get_theme("dune")
+theme.palette       # categorical cycle, perceptually separated
+theme.sequential    # monotonic-lightness sequential colormap
+theme.diverging     # symmetric diverging colormap
+```
+
+## Accessibility
+
+```python
+theme = cinestyle.get_theme("blade_runner")
+report = cinestyle.check_accessibility(theme.palette, background=theme.background)
+print(report.summary())          # CIEDE2000 under protan/deutan/tritan + contrast
+
+safe = theme.accessible()        # a colorblind-safe variant of the theme
+```
+
+![accessibility](images/accessibility.png)
+
+Checks simulate the palette under each color-vision deficiency and flag any pair
+that *collapses* (CIEDE2000), plus WCAG non-text contrast against the background.
+The repair keeps the film's mood where it can and borrows from known-safe
+palettes (Okabe-Ito, Paul Tol) where it must.
+
+## Film looks
+
+```python
+look = cinestyle.get_look("teal_orange")
+im = ax.imshow(image)
+look.apply_to_image(im)          # grade an image plot / heatmap
+look.to_cube("teal_orange.cube") # export a 3D LUT for video tools
+```
+
+Looks are original parametric grades (lift/gamma/gain, saturation, split-tone).
+They matter most for image and heatmap plots; flat bar/line charts are carried
+by the palette and chrome.
 
 ## Define your own brand
 
-A brand is the same rcParams idea, made yours. Describe it once, then scope it,
-register it, or export it to a `matplotlibrc` file you can drop into any project.
-
 ```python
-from cinestyle import define_brand
-
-acme = define_brand(
+brand = cinestyle.define_brand(
     "acme",
     palette=["#0B5FFF", "#FF6B00", "#00B5AD"],
     background="#FBFBFD",
     foreground="#1A1A2E",
-    grid_color="#E3E3EA",
 )
-
-with acme.use():                       # scoped styling
+with brand.use():
     ...
-
-acme.register()                        # plt.style.use("cinestyle-acme")
-acme.to_matplotlibrc("acme.mplstyle")  # reuse it anywhere matplotlib reads styles
+brand.register()                  # plt.style.use("cinestyle-acme")
+brand.to_matplotlibrc("acme.mplstyle")
 ```
-
-`Brand.from_matplotlibrc(path)` reads an existing `matplotlibrc` back into a
-brand, so the round-trip is lossless.
 
 ## Development
 
 ```bash
 pip install -e ".[dev]"
 black --check . && ruff check . && mypy cinestyle && pytest
-python scripts/generate_gallery.py    # regenerate the gallery images
+python scripts/generate_gallery.py   # regenerate the gallery
 ```
 
-Tests run headless on the Agg backend and assert that styling is actually
-applied — rcParams change, artist colors match the palette, the scoped context
-restores global state — not merely that calls don't raise.
+Tests run headless (Agg) and assert that styling is actually applied — rcParams
+change, artist colors match the palette, colormaps are monotonic/symmetric, the
+scoped context restores global state, palettes pass the accessibility checks.
 
-## Contributing
+## Credits
 
-Contributions are welcome. Style ideas worth exploring: Tarantino (bold
-typography, vintage color), Kubrick (symmetrical, minimal), Nolan (desaturated,
-realistic).
+cinestyle is an independent, inspired-by tribute and is not affiliated with or
+endorsed by any rights holder; film titles are trademarks of their owners. See
+[NOTICE.md](NOTICE.md) for palette sources (incl. the `wesanderson` and `ghibli`
+palette projects) and bundled-font licenses.
 
 ## License
 
@@ -152,8 +180,3 @@ MIT — see [LICENSE](LICENSE).
 ## Author
 
 David Burton — [databurton.com](https://databurton.com)
-
-## Acknowledgments
-
-Inspired by the visual language of Film Noir cinema, the films of Studio Ghibli
-and Wes Anderson, Ridley Scott's *Blade Runner*, and the *Star Wars* saga.
