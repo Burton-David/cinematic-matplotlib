@@ -17,3 +17,24 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+
+# Tooling caches
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Local-only working notes (public docs under docs/ stay tracked)
+docs/research/
+docs/REFRESH.md
+docs/cinematic-matplotlib-blog-draft.md
+
+# Example/scratch output (the committed gallery lives in images/)
+examples/*.png
+quickstart_*.png
+*.mplstyle
+*.cube
+
+# Input datasets used for examples; not part of the package
+data/*.csv
