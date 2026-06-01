@@ -9,7 +9,10 @@
 Cinematic data-viz theming, done with color science. Twenty-four film-inspired
 themes that are **beautiful, correct, and accessible**, defined once and applied
 to **matplotlib, Plotly, or Altair**, plus an API for defining your own brand.
-Same data, cinematic finish:
+
+![Twenty-four film looks, one per frame](images/cinestyle_reel.gif)
+
+Every theme plots data from its own film. Same data, cinematic finish:
 
 ![Before and after](images/hero_before_after.png)
 
@@ -91,8 +94,9 @@ three backends side by side.
 
 ## Gallery
 
-Every image is regenerated from deterministic data by
-`python scripts/generate_gallery.py`. No hand-edited screenshots.
+Each card plots something from its own film: Blade Runner's "Tears in Rain", the
+Bride's kill count, the Balance of the Force. All regenerated from deterministic
+data by `python scripts/generate_gallery.py` (add `--reel` to rebuild the GIF).
 
 | | |
 |---|---|
