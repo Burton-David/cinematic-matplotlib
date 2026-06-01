@@ -1,64 +1,95 @@
-"""cinestyle: cinematic matplotlib styles plus a reusable-brand API.
+"""cinestyle: cinematic matplotlib theming, done with color science.
 
-Five film-inspired styles (Film Noir, Studio Ghibli, Wes Anderson, Blade Runner,
-Star Wars) and a :class:`~cinestyle.brand.Brand` type for defining your own. Each
-style can be used three ways:
+Ten film-inspired themes (and a brand authoring API) that are *beautiful,
+correct, and accessible*: palettes and colormaps are derived in a perceptual
+color space, bundled fonts make them reproducible, an optional glow brings the
+neon looks to life, and any palette can be checked or repaired for color-vision
+deficiency. cinestyle only sets rcParams and registers colormaps, so a theme
+works across every chart type -- you never have to switch themes mid-deck.
 
-* scoped context manager -- ``with FilmNoir().use(): ...``
-* registered style sheet -- ``cinestyle.register(); plt.style.use("cinestyle-noir")``
-* signature plotting helpers -- ``FilmNoir().plot_shadows(...)``
+Use a theme three ways::
+
+    import cinestyle
+
+    with cinestyle.use("blade_runner"):      # scoped
+        ...
+
+    cinestyle.register()                      # plt.style.use("cinestyle-dune")
+
+    theme = cinestyle.get_theme("ghibli")     # the Theme object itself
 """
 
 from __future__ import annotations
 
 from importlib.metadata import PackageNotFoundError, version
+from typing import Any
 
-from .base import CinematicStyle
-from .blade_runner import BladeRunner
+from . import color
+from .accessibility import (
+    AccessibilityReport,
+    accessible_variant,
+    check_accessibility,
+    contrast_ratio,
+)
 from .brand import Brand, define_brand
-from .ghibli import Ghibli
-from .noir import FilmNoir
-from .star_wars import StarWars
-from .wes_anderson import WesAnderson
+from .effects import add_glow, glow_artist
+from .fonts import available_fonts, register_fonts
+from .luts import Look
+from .registry import (
+    LOOKS,
+    THEMES,
+    get_look,
+    get_theme,
+    list_themes,
+    register,
+)
+from .theme import Theme
+
+# Bundled fonts must be registered before any theme sets ``font.family``.
+register_fonts()
 
 try:
     __version__ = version("cinestyle")
 except PackageNotFoundError:  # pragma: no cover
     __version__ = "0.0.0"
 
-STYLES: tuple[type[CinematicStyle], ...] = (
-    FilmNoir,
-    Ghibli,
-    WesAnderson,
-    BladeRunner,
-    StarWars,
-)
 
+def use(name: str) -> Any:
+    """Return a scoped context manager that applies theme *name*.
 
-def register(prefix: str = "cinestyle") -> list[str]:
-    """Register every built-in style as a named matplotlib style sheet.
-
-    After calling this, the styles are available via ``plt.style.use`` and
-    appear in ``plt.style.available``.
-
-    Args:
-        prefix: Name prefix; styles register as ``<prefix>-<style name>``.
-
-    Returns:
-        The registered style-sheet names, e.g. ``["cinestyle-noir", ...]``.
+    Example:
+        >>> with cinestyle.use("matrix"):
+        ...     ...
     """
-    return [style().register(f"{prefix}-{style.name}") for style in STYLES]
+    return get_theme(name).use()
+
+
+def apply(name: str) -> Theme:
+    """Apply theme *name* to global rcParams; returns it (undo with ``.restore()``)."""
+    return get_theme(name).apply()
 
 
 __all__ = [
-    "BladeRunner",
+    "AccessibilityReport",
     "Brand",
-    "CinematicStyle",
-    "FilmNoir",
-    "Ghibli",
-    "StarWars",
-    "WesAnderson",
+    "LOOKS",
+    "Look",
+    "THEMES",
+    "Theme",
     "__version__",
+    "accessible_variant",
+    "add_glow",
+    "apply",
+    "available_fonts",
+    "check_accessibility",
+    "color",
+    "contrast_ratio",
     "define_brand",
+    "get_look",
+    "get_theme",
+    "glow_artist",
+    "list_themes",
     "register",
+    "register_fonts",
+    "use",
 ]
