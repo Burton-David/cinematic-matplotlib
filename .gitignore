@@ -17,3 +17,18 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+
+# Tooling caches
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Local-only working notes
+docs/
+
+# Example/scratch output (the committed gallery lives in images/)
+examples/*.png
+quickstart_*.png
+acme.mplstyle
