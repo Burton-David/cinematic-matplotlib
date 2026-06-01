@@ -16,7 +16,8 @@ from ..theme import Theme
 
 def _scale(theme: Theme, which: str, n: int = 11) -> list[list[Any]]:
     stops = theme.colormap_hex(which, n)
-    return [[i / (n - 1), color] for i, color in enumerate(stops)]
+    last = max(len(stops) - 1, 1)
+    return [[i / last, color] for i, color in enumerate(stops)]
 
 
 def to_plotly_template(theme: str | Theme) -> Any:

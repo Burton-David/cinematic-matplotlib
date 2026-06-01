@@ -62,8 +62,8 @@ plotting library.
 
 ## It generalizes
 
-A neon-on-dark theme (`tron`), a warm light theme (`dune`), and a muted theme
-(`nolan`), each rendered across all three backends:
+A neon-on-dark theme (`tron`), a warm light theme (`dune`), and a muted dark
+theme (`nolan`), each rendered across all three backends:
 
 ![tron, dune and nolan across three backends](../images/multibackend_strip.png)
 

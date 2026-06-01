@@ -66,6 +66,8 @@ def test_audit_accepts_name_palette_and_theme() -> None:
     by_theme = cs.audit(cs.get_theme("blade_runner"))
     assert by_name.cvd_min_delta_e == by_theme.cvd_min_delta_e
     assert cs.audit(["#D62728", "#2CA02C", "#1F77B4"]).safe is False
+    # A lone hex string is a one-color palette, not mistaken for a theme name.
+    assert cs.audit("#FF0000").normal_min_delta_e == float("inf")
 
 
 def test_repair_returns_safe_palette() -> None:
