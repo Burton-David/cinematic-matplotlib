@@ -1,9 +1,9 @@
-"""The :class:`Theme` -- one object that fully describes a cinematic look.
+"""The :class:`Theme`: one object that fully describes a cinematic look.
 
 A theme bundles everything needed to make matplotlib speak in a film's visual
 language: the chrome (backgrounds, text, grid, spines), a perceptually-derived
 categorical palette and matching colormaps, a bundled font, and optional cues
-for effects (glow) and film-look LUTs. It is a *pure styling* object -- it sets
+for effects (glow) and film-look LUTs. It is a *pure styling* object: it sets
 rcParams and registers colormaps, so it works across every chart type without
 wrapping any plotting call. There is no ``plot_*`` API to outgrow.
 

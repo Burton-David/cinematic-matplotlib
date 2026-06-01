@@ -8,7 +8,7 @@ contrast against the theme background, and can synthesize a colorblind-safe
 variant that stays as close to the original as possible.
 
 Distinguishing data colors is a perceptual-distance question (CIEDE2000 after
-CVD simulation), not a luminance-contrast one -- WCAG ratios answer the
+CVD simulation), not a luminance-contrast one; WCAG ratios answer the
 different question of whether an element is legible against its background.
 
 Simulation uses :mod:`daltonlens` (the ``[a11y]`` extra): Machado (2009) for

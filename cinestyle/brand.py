@@ -1,4 +1,4 @@
-"""Author your own reusable brand -- a :class:`~cinestyle.theme.Theme` you define.
+"""Author your own reusable brand: a :class:`~cinestyle.theme.Theme` you define.
 
 The original branding idea was "design a look once and reuse it everywhere."
 With the theme engine, a brand is simply a theme you build yourself: give it a

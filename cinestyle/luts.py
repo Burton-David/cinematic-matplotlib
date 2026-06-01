@@ -1,6 +1,6 @@
 """Film-look color grades, applicable to image plots and exportable as 3D LUTs.
 
-A :class:`Look` is a parametric color grade -- lift/gamma/gain, saturation, and
+A :class:`Look` is a parametric color grade: lift/gamma/gain, saturation, and
 a shadow/highlight split-tone (the mechanism behind the cinematic teal-and-orange
 grade). It applies to any RGB image array or to an ``imshow`` result, so heatmaps
 and image plots can carry the same look as the rest of the theme. A look can also
@@ -8,7 +8,7 @@ be baked to a standard ``.cube`` 3D LUT for use in video tools, and external
 ``.cube`` files can be read back (with the optional ``[luts]`` extra).
 
 Looks are most meaningful for photographic / continuous imagery; on flat-color
-bar and line charts a grade has little to act on -- the palette and chrome carry
+bar and line charts a grade has little to act on; the palette and chrome carry
 those. The honest place to reach for a look is ``imshow``/heatmap tone-mapping.
 """
 
@@ -31,9 +31,9 @@ class Look:
 
     Attributes:
         name: Identifier (also the default LUT title).
-        lift: Added to the (gained) signal -- raises/lowers the floor.
+        lift: Added to the (gained) signal; raises/lowers the floor.
         gamma: Mid-tone curve; >1 brightens mids, <1 darkens.
-        gain: Multiplies the signal -- scales the ceiling.
+        gain: Multiplies the signal; scales the ceiling.
         saturation: 1.0 keeps saturation; <1 mutes; >1 boosts.
         shadow_tint: Color pulled into the shadows.
         highlight_tint: Color pulled into the highlights.
