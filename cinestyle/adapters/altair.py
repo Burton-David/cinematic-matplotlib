@@ -35,7 +35,9 @@ def to_altair_theme(theme: str | Theme) -> dict[str, Any]:
             },
             "legend": {"labelColor": t.foreground, "titleColor": t.foreground},
             "title": {"color": t.foreground},
-            "font": t.font_family,
+            # A CSS-style fallback so renderers that lack the bundled display
+            # font (vl-convert, browsers) substitute a sans rather than drop text.
+            "font": f"{t.font_family}, sans-serif",
             "range": {
                 "category": list(t.palette),
                 "ordinal": sequential,
