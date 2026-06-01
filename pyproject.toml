@@ -27,14 +27,22 @@ classifiers = [
 dependencies = [
     "matplotlib>=3.6",
     "numpy>=1.23",
+    "coloraide>=4.0",
 ]
 
 [project.optional-dependencies]
+a11y = ["daltonlens>=0.1.5"]
+luts = ["colour-science>=0.4.4"]
 dev = [
     "black==24.10.0",
     "ruff==0.6.9",
     "mypy==1.11.2",
     "pytest>=8.0",
+    "pytest-mpl>=0.17",
+    "daltonlens>=0.1.5",
+    "colour-science>=0.4.4",
+    "glasbey>=0.2",
+    "colorspacious>=1.1",
 ]
 
 [project.urls]
@@ -46,7 +54,11 @@ Author = "https://databurton.com"
 include = ["cinestyle*"]
 
 [tool.setuptools.package-data]
-cinestyle = ["py.typed"]
+cinestyle = [
+    "py.typed",
+    "data/fonts/*.ttf",
+    "data/fonts/licenses/*",
+]
 
 [tool.black]
 line-length = 88
@@ -68,8 +80,22 @@ disallow_untyped_defs = true
 no_implicit_optional = true
 
 [[tool.mypy.overrides]]
-module = ["matplotlib.*", "mpl_toolkits.*"]
+module = [
+    "matplotlib.*",
+    "mpl_toolkits.*",
+    "coloraide.*",
+    "cycler.*",
+    "daltonlens.*",
+    "glasbey.*",
+    "colorspacious.*",
+]
 ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+# colour-science ships source that newer CPython parsers reject; don't follow it.
+module = ["colour.*"]
+ignore_missing_imports = true
+follow_imports = "skip"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
