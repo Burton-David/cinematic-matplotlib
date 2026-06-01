@@ -1,243 +1,159 @@
-# Cinestyle
+# cinestyle
 
-![Python](https://img.shields.io/badge/python-3.7+-blue.svg)
+[![CI](https://github.com/Burton-David/cinematic-matplotlib/actions/workflows/ci.yml/badge.svg)](https://github.com/Burton-David/cinematic-matplotlib/actions/workflows/ci.yml)
+![Python](https://img.shields.io/badge/python-3.10%2B-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![Linter: ruff](https://img.shields.io/badge/linter-ruff-261230.svg)](https://github.com/astral-sh/ruff)
 
-Transform your data visualizations with cinematic aesthetics inspired by iconic films. Create stunning matplotlib charts styled after Film Noir, Studio Ghibli, Wes Anderson, Blade Runner, and Star Wars.
+Cinematic matplotlib styling inspired by iconic films — Film Noir, Studio Ghibli,
+Wes Anderson, Blade Runner, and Star Wars — plus a small API for defining and
+reusing your own brand. Same data, cinematic finish:
 
-![Film Noir](images/01_noir_sentiment.png)
-![Wes Anderson](images/03_wes_anderson_words.png)
+![Before and after](images/hero_before_after.png)
 
-## Features
+## Why
 
-- **5 Cinematic Styles**: Film Noir, Studio Ghibli, Wes Anderson, Blade Runner, Star Wars
-- **Common Plotting Methods**: Available across all styles (line, bar, scatter, histogram, heatmap, area)
-- **Signature Methods**: Unique visualizations for each cinematic style
-- **Easy Integration**: Works seamlessly with existing matplotlib code
-- **High Quality**: 300 DPI publication-ready output
+Every style is just a bundle of matplotlib rcParams. cinestyle gives you that
+bundle three ways — scoped to a `with` block, registered as a named style sheet,
+or exported to a `matplotlibrc` file — so styling never leaks into the rest of
+your session and a brand you define once works everywhere.
 
-## Installation
+## Install
+
+Not yet on PyPI. Install from the repository:
 
 ```bash
-# Clone the repository
-git clone https://github.com/Burton-David/cinematic-matplotlib.git
-cd cinematic-matplotlib
-
-# Install the package
-pip install -e .
+pip install git+https://github.com/Burton-David/cinematic-matplotlib.git
 ```
 
-## Quick Start
+For development (tests, linters, type checker):
+
+```bash
+git clone https://github.com/Burton-David/cinematic-matplotlib.git
+cd cinematic-matplotlib
+pip install -e ".[dev]"
+```
+
+Requires Python 3.10+, matplotlib 3.6+, and numpy 1.23+.
+
+## Quick start
+
+**1. Scoped context manager** — the recommended path; global rcParams are
+restored when the block exits:
 
 ```python
 import matplotlib.pyplot as plt
-from cinestyle import FilmNoir, Ghibli, WesAnderson, BladeRunner, StarWars
-
-# Film Noir style
-noir = FilmNoir()
-fig, ax = plt.subplots(figsize=(12, 8))
-noir.style_axes(ax)
-
-ax.bar(['Positive', 'Negative'], [25000, 25000],
-       color=['#FFFFFF', '#8B0000'])
-ax.set_title("SENTIMENT DISTRIBUTION", color='white', fontsize=20)
-
-plt.savefig('noir_viz.png', dpi=300, bbox_inches='tight', facecolor='#121212')
-plt.show()
-```
-
-## Cinematic Styles
-
-### 1. Film Noir
-High-contrast visualizations with dramatic reds and whites on near-black backgrounds.
-
-**Use cases:** Binary comparisons, dramatic contrasts, stark data splits
-
-**Signature methods:**
-- `plot_shadows()` - Light vs dark horizontal bar charts
-- `plot_contrast()` - Contrasting line plots with fill areas
-
-### 2. Studio Ghibli
-Soft, calming visualizations with pastoral greens and organic aesthetics.
-
-**Use cases:** Distributions, frequency analyses, calming presentations
-
-**Signature methods:**
-- `plot_landscape()` - Layered area charts with nature-inspired colors
-- `plot_flow()` - Flowing line plots with smoothed overlays
-
-### 3. Wes Anderson
-Perfectly symmetrical layouts with carefully curated pastel palettes.
-
-**Use cases:** Side-by-side comparisons, balanced compositions, categorical data
-
-**Signature methods:**
-- `plot_symmetry()` - Mirror bar charts with center axis
-- `plot_grid()` - Symmetrical grid of colored rectangles
-
-### 4. Blade Runner
-Cyberpunk aesthetics with neon cyan and magenta on dark backgrounds.
-
-**Use cases:** Modern/tech presentations, scatter plots, futuristic themes
-
-**Signature methods:**
-- `plot_neon_lines()` - Multiple line plots with neon colors
-- `plot_matrix()` - Heatmaps with custom cyberpunk colormaps
-
-### 5. Star Wars
-Epic visualizations with bold gold and blue on pure black backgrounds.
-
-**Use cases:** Important metrics, rankings, bold statements
-
-**Signature methods:**
-- `plot_balance()` - Light side vs dark side horizontal bars
-- `plot_galaxy()` - Epic bar charts with value labels
-
-## Common Methods (All Styles)
-
-Every style includes these standard plotting methods:
-
-```python
-# Line plot
-style.plot_line(x, y, ax=None, **kwargs)
-
-# Bar chart
-style.plot_bar(categories, values, ax=None, **kwargs)
-
-# Scatter plot
-style.plot_scatter(x, y, ax=None, **kwargs)
-
-# Histogram
-style.plot_histogram(data, bins=30, ax=None, **kwargs)
-
-# Heatmap
-style.plot_heatmap(data, ax=None, **kwargs)
-
-# Area plot
-style.plot_area(x, y, ax=None, **kwargs)
-```
-
-## Examples
-
-### Film Noir: Sentiment Analysis
-
-```python
-import pandas as pd
-from cinestyle import FilmNoir
-
-df = pd.read_csv('IMDB Dataset.csv')
-noir = FilmNoir()
-
-fig, ax = plt.subplots(figsize=(12, 8))
-noir.style_axes(ax)
-
-sentiments = df['sentiment'].value_counts()
-ax.bar(sentiments.index, sentiments.values,
-       color=['#8B0000', '#FFFFFF'],
-       edgecolor='white', linewidth=2)
-
-plt.savefig('sentiment.png', dpi=300, bbox_inches='tight', facecolor='#121212')
-```
-
-### Wes Anderson: Word Frequency Comparison
-
-```python
-from cinestyle import WesAnderson
-from collections import Counter
-
-wes = WesAnderson()
-fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(18, 8))
-wes.style_axes(ax1)
-wes.style_axes(ax2)
-
-# Positive words
-ax1.barh(words_pos, counts_pos, color='#F4A460', edgecolor='#8B4513')
-ax1.set_title("Positive Words", fontsize=18)
-
-# Negative words
-ax2.barh(words_neg, counts_neg, color='#9370DB', edgecolor='#4B0082')
-ax2.set_title("Negative Words", fontsize=18)
-
-plt.savefig('word_comparison.png', dpi=300, bbox_inches='tight')
-```
-
-### Blade Runner: Scatter Plot
-
-```python
+import numpy as np
 from cinestyle import BladeRunner
 
-blade = BladeRunner()
-fig, ax = plt.subplots(figsize=(12, 8))
-blade.style_axes(ax)
-
-ax.scatter(positive_x, positive_y, c='#00FFFF', alpha=0.5, label='Positive')
-ax.scatter(negative_x, negative_y, c='#FF00FF', alpha=0.5, label='Negative')
-
-ax.set_title("WORD COUNT PATTERNS", color='cyan', fontsize=20)
-ax.legend(facecolor='#0a0a0a', edgecolor='#00FFFF')
-
-plt.savefig('scatter.png', dpi=300, bbox_inches='tight', facecolor='#0a0a0a')
+x = np.linspace(0, 12, 200)
+with BladeRunner().use():
+    fig, ax = plt.subplots()
+    ax.plot(x, np.sin(x))
+    ax.plot(x, np.cos(x))
+    ax.set_title("CITY SIGNALS")
 ```
 
-## Real-World Example
+**2. Registered style sheet** — use the styles like any matplotlib style:
 
-This library was used to analyze 50,000 IMDB movie reviews, creating 5 distinct visualizations:
+```python
+import cinestyle
+import matplotlib.pyplot as plt
 
-1. **Film Noir**: Sentiment distribution showing 25,000 positive vs 25,000 negative reviews
-2. **Studio Ghibli**: Review length distribution (median: 970 characters)
-3. **Wes Anderson**: Top 10 positive vs negative words comparison
-4. **Blade Runner**: Word count scatter plot (avg: 231 words per review)
-5. **Star Wars**: Top 20 keywords across all reviews
-
-See the [blog post](https://databurton.com/research/matplotlib-cinematic-visualizations) for full analysis.
-
-## Project Structure
-
-```
-cinematic-matplotlib/
-├── cinestyle/           # Core library
-│   ├── __init__.py
-│   ├── base.py          # Base class with common methods
-│   ├── noir.py          # Film Noir style
-│   ├── ghibli.py        # Studio Ghibli style
-│   ├── wes_anderson.py  # Wes Anderson style
-│   ├── blade_runner.py  # Blade Runner style
-│   └── star_wars.py     # Star Wars style
-├── examples/            # Usage examples
-├── images/              # Example visualizations
-├── notebooks/           # Jupyter notebooks
-├── setup.py
-├── requirements.txt
-└── README.md
+cinestyle.register()                      # adds "cinestyle-noir", "cinestyle-ghibli", ...
+plt.style.use("cinestyle-star_wars")
 ```
 
-## Requirements
+**3. Signature plotting helpers** — each style ships distinctive chart types:
 
-- Python 3.7+
-- matplotlib >= 3.3.0
-- numpy >= 1.19.0
-- pandas (for examples)
+```python
+from cinestyle import FilmNoir
+
+noir = FilmNoir()
+noir.plot_shadows(["Opening", "Betrayal", "Finale"], [6, 8, 7], [3, 8, 5])
+```
+
+## Gallery
+
+Every image below is regenerated from deterministic synthetic data by
+`python scripts/generate_gallery.py` — there are no hand-edited screenshots.
+
+| | |
+|---|---|
+| ![Film Noir](images/noir.png) | ![Studio Ghibli](images/ghibli.png) |
+| ![Wes Anderson](images/wes_anderson.png) | ![Blade Runner](images/blade_runner.png) |
+| ![Star Wars](images/star_wars.png) | |
+
+## The styles
+
+| Style | Look | Signature methods |
+|---|---|---|
+| `FilmNoir` | High-contrast reds and whites on near-black | `plot_shadows`, `plot_contrast` |
+| `Ghibli` | Soft, pastoral palettes; serif type | `plot_landscape`, `plot_flow` |
+| `WesAnderson` | Framed, symmetrical layouts in pastels | `plot_symmetry`, `plot_grid` |
+| `BladeRunner` | Neon cyan and magenta on deep black | `plot_neon_lines`, `plot_matrix` |
+| `StarWars` | Bold gold and blue on pure black | `plot_balance`, `plot_galaxy` |
+
+Each instance exposes its semantic `colors` and the `palette` that drives the
+color cycle, and every style provides the common helpers `plot_line`,
+`plot_bar`, `plot_scatter`, `plot_histogram`, `plot_heatmap`, and `plot_area`.
+Pass an existing `ax=` to style it in place, or omit it to get a fully styled
+figure back.
+
+## Define your own brand
+
+A brand is the same rcParams idea, made yours. Describe it once, then scope it,
+register it, or export it to a `matplotlibrc` file you can drop into any project.
+
+```python
+from cinestyle import define_brand
+
+acme = define_brand(
+    "acme",
+    palette=["#0B5FFF", "#FF6B00", "#00B5AD"],
+    background="#FBFBFD",
+    foreground="#1A1A2E",
+    grid_color="#E3E3EA",
+)
+
+with acme.use():                       # scoped styling
+    ...
+
+acme.register()                        # plt.style.use("cinestyle-acme")
+acme.to_matplotlibrc("acme.mplstyle")  # reuse it anywhere matplotlib reads styles
+```
+
+`Brand.from_matplotlibrc(path)` reads an existing `matplotlibrc` back into a
+brand, so the round-trip is lossless.
+
+## Development
+
+```bash
+pip install -e ".[dev]"
+black --check . && ruff check . && mypy cinestyle && pytest
+python scripts/generate_gallery.py    # regenerate the gallery images
+```
+
+Tests run headless on the Agg backend and assert that styling is actually
+applied — rcParams change, artist colors match the palette, the scoped context
+restores global state — not merely that calls don't raise.
 
 ## Contributing
 
-Contributions welcome! Ideas for new styles:
-- Tarantino (bold typography, vintage colors)
-- Kubrick (symmetrical, minimalist)
-- Nolan (desaturated, realistic)
+Contributions are welcome. Style ideas worth exploring: Tarantino (bold
+typography, vintage color), Kubrick (symmetrical, minimal), Nolan (desaturated,
+realistic).
 
 ## License
 
-MIT
+MIT — see [LICENSE](LICENSE).
 
 ## Author
 
-David Burton - [databurton.com](https://databurton.com)
+David Burton — [databurton.com](https://databurton.com)
 
 ## Acknowledgments
 
-Inspired by the visual aesthetics of:
-- Film Noir cinema (1940s-1950s)
-- Studio Ghibli films (Hayao Miyazaki)
-- Wes Anderson films (The Grand Budapest Hotel, etc.)
-- Blade Runner (Ridley Scott, 1982)
-- Star Wars saga (George Lucas)
+Inspired by the visual language of Film Noir cinema, the films of Studio Ghibli
+and Wes Anderson, Ridley Scott's *Blade Runner*, and the *Star Wars* saga.
