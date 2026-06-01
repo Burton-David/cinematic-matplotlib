@@ -21,7 +21,6 @@ Brand = Theme
 
 
 def _mix(color1: str, color2: str, t: float) -> str:
-    """Interpolate between two colors in OKLab and return a hex string."""
     return (
         Color(color1)
         .mix(color2, t, space="oklab")

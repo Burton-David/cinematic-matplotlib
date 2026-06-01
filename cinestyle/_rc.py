@@ -38,7 +38,6 @@ def _strip_hash(color: str) -> str:
 
 
 def _format_rc_value(value: Any) -> str:
-    """Serialize a single rcParams value for a matplotlibrc file."""
     if isinstance(value, Cycler):
         colors = ", ".join(f"'{_strip_hash(str(e['color']))}'" for e in value)
         return f"cycler('color', [{colors}])"

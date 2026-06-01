@@ -42,7 +42,6 @@ def _hex(color: Color) -> str:
 
 
 def _srgb(color: Color) -> tuple[float, float, float]:
-    """Return the gamut-mapped sRGB triplet of *color*, each channel in [0, 1]."""
     coords = color.convert(_SRGB).fit(_SRGB)[:-1]
     return (
         float(np.clip(coords[0], 0.0, 1.0)),
