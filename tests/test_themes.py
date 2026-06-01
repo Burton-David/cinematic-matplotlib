@@ -18,10 +18,11 @@ def _hex(color: object) -> str:
 
 def test_catalog_themes() -> None:
     names = list_themes()
-    assert len(names) == 13
+    assert len(names) == 18
     assert {"noir", "ghibli", "wes_anderson", "blade_runner", "star_wars"} <= set(names)
     assert {"matrix", "dune", "fury_road", "kill_bill", "in_the_mood"} <= set(names)
     assert {"sin_city", "akira", "the_fall"} <= set(names)
+    assert {"tron", "amelie", "the_shining", "drive", "grand_budapest"} <= set(names)
 
 
 def test_get_theme_unknown_raises() -> None:
@@ -57,7 +58,7 @@ def test_theme_font_is_bundled_or_generic(name: str) -> None:
 
 def test_register_adds_styles_and_colormaps() -> None:
     names = cs.register()
-    assert len(names) == 13
+    assert len(names) == 18
     assert all(n in plt.style.available for n in names)
     assert "cinestyle:dune" in mpl.colormaps
     assert "cinestyle:dune_div" in mpl.colormaps

@@ -6,8 +6,8 @@
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![Linter: ruff](https://img.shields.io/badge/linter-ruff-261230.svg)](https://github.com/astral-sh/ruff)
 
-Cinematic matplotlib theming, done with color science. Thirteen film-inspired
-themes that are **beautiful, correct, and accessible** — and an API for defining
+Cinematic matplotlib theming, done with color science. Eighteen film-inspired
+themes that are **beautiful, correct, and accessible**, plus an API for defining
 your own brand. Same data, cinematic finish:
 
 ![Before and after](images/hero_before_after.png)
@@ -19,10 +19,10 @@ one chart in their README. cinestyle is built differently:
 
 - **Perceptually derived.** Each theme's categorical palette and its sequential
   and diverging colormaps are computed in a perceptual color space (OKLCH /
-  CAM02-UCS) from a few sourced "hero" colors — not hand-waved. Sequential maps
+  CAM02-UCS) from a few sourced "hero" colors, not hand-waved. Sequential maps
   have monotonic lightness; diverging maps are symmetric.
 - **Works on every chart type.** cinestyle only sets rcParams and registers
-  colormaps. Lines, bars, scatter, hist, boxplots, pies, heatmaps, errorbars —
+  colormaps. Lines, bars, scatter, hist, boxplots, pies, heatmaps, errorbars:
   all themed. You never switch themes mid-deck.
 - **Accessible by design.** Any palette can be checked for color-vision
   deficiency and contrast, and repaired into a colorblind-safe variant.
@@ -50,18 +50,18 @@ import cinestyle
 
 x = np.linspace(0, 12, 200)
 
-# 1. Scoped — styling is restored when the block exits
+# 1. Scoped: styling is restored when the block exits
 with cinestyle.use("blade_runner"):
     fig, ax = plt.subplots()
     for i in range(4):
         ax.plot(x, np.sin(x + i * 0.6) + i * 0.4)
     cinestyle.add_glow(ax)          # the neon glow
 
-# 2. Registered style sheet — use it like any matplotlib style
+# 2. Registered style sheet: use it like any matplotlib style
 cinestyle.register()
 plt.style.use("cinestyle-dune")
 
-# 3. The Theme object itself — palette, colormaps, and more
+# 3. The Theme object itself: palette, colormaps, and more
 theme = cinestyle.get_theme("ghibli")
 plt.imshow(data, cmap=theme.sequential)
 ```
@@ -69,7 +69,7 @@ plt.imshow(data, cmap=theme.sequential)
 ## Gallery
 
 Every image is regenerated from deterministic data by
-`python scripts/generate_gallery.py` — no hand-edited screenshots.
+`python scripts/generate_gallery.py`. No hand-edited screenshots.
 
 | | |
 |---|---|
@@ -79,7 +79,9 @@ Every image is regenerated from deterministic data by
 | ![dune](images/dune.png) | ![fury_road](images/fury_road.png) |
 | ![kill_bill](images/kill_bill.png) | ![in_the_mood](images/in_the_mood.png) |
 | ![sin_city](images/sin_city.png) | ![akira](images/akira.png) |
-| ![the_fall](images/the_fall.png) | |
+| ![the_fall](images/the_fall.png) | ![tron](images/tron.png) |
+| ![amelie](images/amelie.png) | ![the_shining](images/the_shining.png) |
+| ![drive](images/drive.png) | ![grand_budapest](images/grand_budapest.png) |
 
 ## The themes
 
@@ -98,6 +100,11 @@ Every image is regenerated from deterministic data by
 | `sin_city` | Sin City | Anton |
 | `akira` | Akira | Orbitron |
 | `the_fall` | The Fall (Tarsem) | EB Garamond |
+| `tron` | Tron: Legacy | Orbitron |
+| `amelie` | Amélie | EB Garamond |
+| `the_shining` | The Shining (Kubrick) | Bebas Neue |
+| `drive` | Drive | Share Tech Mono |
+| `grand_budapest` | The Grand Budapest Hotel | Jost |
 
 Each `Theme` exposes its `palette`, `sequential` and `diverging` colormaps,
 `heroes`, and chrome. `cinestyle.list_themes()` lists them all.
@@ -167,7 +174,7 @@ black --check . && ruff check . && mypy cinestyle && pytest
 python scripts/generate_gallery.py   # regenerate the gallery
 ```
 
-Tests run headless (Agg) and assert that styling is actually applied — rcParams
+Tests run headless (Agg) and assert that styling is actually applied: rcParams
 change, artist colors match the palette, colormaps are monotonic/symmetric, the
 scoped context restores global state, palettes pass the accessibility checks.
 
@@ -180,8 +187,8 @@ palette projects) and bundled-font licenses.
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+MIT. See [LICENSE](LICENSE).
 
 ## Author
 
-David Burton — [databurton.com](https://databurton.com)
+David Burton, [databurton.com](https://databurton.com)
