@@ -6,7 +6,7 @@
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![Linter: ruff](https://img.shields.io/badge/linter-ruff-261230.svg)](https://github.com/astral-sh/ruff)
 
-Cinematic matplotlib theming, done with color science. Eighteen film-inspired
+Cinematic matplotlib theming, done with color science. Twenty-four film-inspired
 themes that are **beautiful, correct, and accessible**, plus an API for defining
 your own brand. Same data, cinematic finish:
 
@@ -82,6 +82,9 @@ Every image is regenerated from deterministic data by
 | ![the_fall](images/the_fall.png) | ![tron](images/tron.png) |
 | ![amelie](images/amelie.png) | ![the_shining](images/the_shining.png) |
 | ![drive](images/drive.png) | ![grand_budapest](images/grand_budapest.png) |
+| ![nolan](images/nolan.png) | ![hero](images/hero.png) |
+| ![suspiria](images/suspiria.png) | ![moonlight](images/moonlight.png) |
+| ![blade_runner_2049](images/blade_runner_2049.png) | ![her](images/her.png) |
 
 ## The themes
 
@@ -105,6 +108,12 @@ Every image is regenerated from deterministic data by
 | `the_shining` | The Shining (Kubrick) | Bebas Neue |
 | `drive` | Drive | Share Tech Mono |
 | `grand_budapest` | The Grand Budapest Hotel | Jost |
+| `nolan` | Nolan (Interstellar, Inception) | Space Grotesk |
+| `hero` | Hero (Zhang Yimou) | Oswald |
+| `suspiria` | Suspiria | Anton |
+| `moonlight` | Moonlight | Jost |
+| `blade_runner_2049` | Blade Runner 2049 | Orbitron |
+| `her` | Her | EB Garamond |
 
 Each `Theme` exposes its `palette`, `sequential` and `diverging` colormaps,
 `heroes`, and chrome. `cinestyle.list_themes()` lists them all.

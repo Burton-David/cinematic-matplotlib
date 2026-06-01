@@ -20,12 +20,13 @@ here as a courtesy and, where a license requires it, as attribution.
 - **Tron** theme: hex values from `ggsci`'s `pal_tron` palette by Nan Xiao
   (GPL-3; only the color values are used, not code). https://github.com/nanxstats/ggsci
 - **Matrix, Dune, Kill Bill, In the Mood for Love, Sin City, Akira, The Fall,
-  Amelie, Drive** themes: anchors drawn from corroborated community color
-  analyses (SchemeColor, color-hex, Movies in Color) of each film, then
-  re-derived in a perceptual color space.
-- **Noir, Star Wars, Blade Runner, Mad Max: Fury Road, The Shining** themes:
-  constructed from each film's documented color identity. Exact hex values are
-  editorial interpretations.
+  Amelie, Drive, Hero, Suspiria, Blade Runner 2049** themes: anchors drawn from
+  corroborated community color analyses (SchemeColor, color-hex, Movies in
+  Color) of each film, then re-derived in a perceptual color space.
+- **Noir, Star Wars, Blade Runner, Mad Max: Fury Road, The Shining, Nolan,
+  Moonlight, Her** themes: constructed from each film's documented color
+  identity (including colorist interviews). Exact hex values are editorial
+  interpretations.
 
 ## Bundled fonts
 
