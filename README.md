@@ -6,9 +6,10 @@
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![Linter: ruff](https://img.shields.io/badge/linter-ruff-261230.svg)](https://github.com/astral-sh/ruff)
 
-Cinematic matplotlib theming, done with color science. Twenty-four film-inspired
-themes that are **beautiful, correct, and accessible**, plus an API for defining
-your own brand. Same data, cinematic finish:
+Cinematic data-viz theming, done with color science. Twenty-four film-inspired
+themes that are **beautiful, correct, and accessible**, defined once and applied
+to **matplotlib, Plotly, or Altair**, plus an API for defining your own brand.
+Same data, cinematic finish:
 
 ![Before and after](images/hero_before_after.png)
 
@@ -21,15 +22,18 @@ one chart in their README. cinestyle is built differently:
   and diverging colormaps are computed in a perceptual color space (OKLCH /
   CAM02-UCS) from a few sourced "hero" colors, not hand-waved. Sequential maps
   have monotonic lightness; diverging maps are symmetric.
-- **Works on every chart type.** cinestyle only sets rcParams and registers
+- **One spec, three backends.** Define a theme once and apply it to matplotlib,
+  Plotly, or Altair. The palette, the sequential/diverging colormaps, and the
+  chrome all travel; you stop caring which plotting library wins.
+- **Works on every chart type.** On matplotlib it only sets rcParams and registers
   colormaps. Lines, bars, scatter, hist, boxplots, pies, heatmaps, errorbars:
   all themed. You never switch themes mid-deck.
-- **Accessible by design.** Any palette can be checked for color-vision
-  deficiency and contrast, and repaired into a colorblind-safe variant.
-- **Reproducible.** Themes ship their fonts (SIL OFL), so a chart looks the same
-  on every machine.
-- **Cinematic extras.** A neon glow for the dark themes, and film-look LUTs you
-  can apply to image plots and export as `.cube`.
+- **Accessible by design.** `audit()` any palette (or theme) for color-vision
+  deficiency and contrast; `repair()` turns it into a colorblind-safe variant.
+- **Reproducible.** Themes ship their fonts (SIL OFL), so a matplotlib chart
+  looks the same on every machine.
+- **Cinematic extras (matplotlib).** A neon glow for the dark themes, and
+  film-look LUTs you can apply to image plots and export as `.cube`.
 
 ## Install
 
@@ -37,9 +41,9 @@ one chart in their README. cinestyle is built differently:
 pip install git+https://github.com/Burton-David/cinematic-matplotlib.git
 ```
 
-Optional extras: `cinestyle[a11y]` (color-vision checks), `cinestyle[luts]`
-(reading external `.cube` LUTs). For development: `pip install -e ".[dev]"`.
-Requires Python 3.10+.
+Optional extras: `cinestyle[plotly]`, `cinestyle[altair]` (the other backends),
+`cinestyle[a11y]` (color-vision checks), `cinestyle[luts]` (reading external
+`.cube` LUTs). For development: `pip install -e ".[dev]"`. Requires Python 3.10+.
 
 ## Quick start
 
@@ -65,6 +69,25 @@ plt.style.use("cinestyle-dune")
 theme = cinestyle.get_theme("ghibli")
 plt.imshow(data, cmap=theme.sequential)
 ```
+
+## Other backends
+
+The same theme drives Plotly and Altair. The palette, colormaps, and chrome
+carry over; glow and LUTs stay matplotlib-only.
+
+```python
+import cinestyle
+
+# Plotly
+cinestyle.register_plotly()
+fig.update_layout(template="cinestyle-blade_runner")   # or use_plotly("dune")
+
+# Altair
+cinestyle.register_altair(enable="dune")               # enables the theme
+```
+
+See [docs/gallery.md](docs/gallery.md) for the same theme rendered across all
+three backends side by side.
 
 ## Gallery
 
@@ -132,12 +155,13 @@ theme.diverging     # symmetric diverging colormap
 
 ## Accessibility
 
-```python
-theme = cinestyle.get_theme("blade_runner")
-report = cinestyle.check_accessibility(theme.palette, background=theme.background)
-print(report.summary())          # CIEDE2000 under protan/deutan/tritan + contrast
+`audit()` and `repair()` work on any palette, theme name, or Theme, not just
+ours:
 
-safe = theme.accessible()        # a colorblind-safe variant of the theme
+```python
+cinestyle.audit("blade_runner").summary()   # CIEDE2000 under protan/deutan/tritan + contrast
+cinestyle.audit(["#D62728", "#2CA02C"])      # check your own colors
+safe = cinestyle.repair("blade_runner")      # a colorblind-safe version
 ```
 
 ![accessibility](images/accessibility.png)

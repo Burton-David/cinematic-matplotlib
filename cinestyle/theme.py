@@ -20,6 +20,7 @@ from typing import Any
 
 import matplotlib as mpl
 import matplotlib.colors as mcolors
+import numpy as np
 from cycler import cycler
 from matplotlib.colors import LinearSegmentedColormap
 
@@ -128,6 +129,16 @@ class Theme(RcStyle):
             self.diverging_name: self.diverging,
             f"{self.diverging_name}_r": self.diverging.reversed(),
         }
+
+    def colormap_hex(self, which: str = "sequential", n: int = 9) -> list[str]:
+        """Sample a colormap to *n* hex stops.
+
+        This is the bridge that lets a theme leave matplotlib: a Colormap object
+        is not portable, but the hex stops it samples to are accepted as a color
+        scale by Plotly, Altair and the rest.
+        """
+        cmap = self.diverging if which == "diverging" else self.sequential
+        return [mcolors.to_hex(cmap(v)) for v in np.linspace(0.0, 1.0, n)]
 
     # ------------------------------------------------------------ registration
     def _register_assets(self) -> None:
