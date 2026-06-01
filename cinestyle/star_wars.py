@@ -1,79 +1,114 @@
-import matplotlib.pyplot as plt
-import matplotlib as mpl
+"""Star Wars: bold gold and blue on the black of deep space."""
+
+from __future__ import annotations
+
 import numpy as np
+from matplotlib.axes import Axes
+from numpy.typing import ArrayLike
+
 from .base import CinematicStyle
 
 
 class StarWars(CinematicStyle):
-    def apply_style(self):
-        self.save_defaults()
-        plt.style.use('dark_background')
-        mpl.rcParams['figure.facecolor'] = 'black'
-        mpl.rcParams['axes.facecolor'] = '#121212'
-        mpl.rcParams['axes.edgecolor'] = '#FFD700'
-        mpl.rcParams['text.color'] = '#FFD700'
-        mpl.rcParams['axes.labelcolor'] = '#FFD700'
-        mpl.rcParams['xtick.color'] = '#FFD700'
-        mpl.rcParams['ytick.color'] = '#FFD700'
-        mpl.rcParams['font.weight'] = 'bold'
+    """Epic, high-impact styling for rankings and headline metrics."""
 
-    def style_axes(self, ax):
-        ax.set_facecolor('#121212')
-        ax.spines['top'].set_visible(False)
-        ax.spines['right'].set_visible(False)
-        ax.spines['left'].set_color('#FFD700')
-        ax.spines['bottom'].set_color('#FFD700')
-        ax.tick_params(colors='#FFD700')
-        ax.xaxis.label.set_color('#FFD700')
-        ax.yaxis.label.set_color('#FFD700')
+    name = "star_wars"
+    base_style = "dark_background"
+    background = "#000000"
+    surface = "#121212"
+    foreground = "#FFD700"
+    edge_color = "#FFD700"
+    font_weight = "bold"
+    cmap = "cividis"
+    palette = ("#FFD700", "#1E90FF", "#8B0000", "#FF4500", "#C0C0C0", "#1E3A5F")
+    colors = {
+        "light_side": "#1E90FF",
+        "dark_side": "#8B0000",
+        "neutral": "#FFD700",
+        "empire": "#696969",
+        "rebellion": "#FF4500",
+        "background": "#000000",
+        "primary": "#FFD700",
+    }
 
-    @property
-    def colors(self):
-        return {
-            'light_side': '#1E90FF',
-            'dark_side': '#8B0000',
-            'neutral': '#FFD700',
-            'empire': '#696969',
-            'rebellion': '#FF4500',
-            'background': 'black',
-            'primary': '#FFD700'
-        }
+    def plot_balance(
+        self,
+        categories: list[str],
+        light_values: ArrayLike,
+        dark_values: ArrayLike,
+        ax: Axes | None = None,
+    ) -> Axes:
+        """Mirror light-side and dark-side magnitudes around a central axis.
 
-    def plot_balance(self, categories, light_values, dark_values, ax=None):
-        if ax is None:
-            fig, ax = plt.subplots(figsize=(12, 7))
-        self.apply_style()
-        self.style_axes(ax)
+        Args:
+            categories: Row labels.
+            light_values: Light-side magnitudes, drawn to the right.
+            dark_values: Dark-side magnitudes, drawn to the left.
+            ax: Existing axes to draw on, or ``None`` to create a styled figure.
 
-        x = range(len(categories))
-        ax.barh(x, light_values, color=self.colors['light_side'], alpha=0.9, label='Light Side')
-        ax.barh(x, [-v for v in dark_values], color=self.colors['dark_side'], alpha=0.9, label='Dark Side')
-        ax.set_yticks(x)
-        ax.set_yticklabels(categories)
-        ax.axvline(0, color='#FFD700', linewidth=3, linestyle='-')
-        ax.legend(facecolor='black', edgecolor='#FFD700')
-        return ax
+        Returns:
+            The axes the chart was drawn on.
+        """
+        light = np.asarray(light_values, dtype=float)
+        dark = np.asarray(dark_values, dtype=float)
+        with self._target(ax, figsize=(12.0, 7.0)) as target:
+            y = np.arange(len(categories))
+            target.barh(
+                y, light, color=self.colors["light_side"], alpha=0.9, label="Light Side"
+            )
+            target.barh(
+                y, -dark, color=self.colors["dark_side"], alpha=0.9, label="Dark Side"
+            )
+            target.set_yticks(y)
+            target.set_yticklabels(categories)
+            target.axvline(0, color=self.colors["neutral"], linewidth=3)
+            target.legend(facecolor=self.background, edgecolor=self.foreground)
+            return target
 
-    def plot_galaxy(self, factions, values, ax=None):
-        if ax is None:
-            fig, ax = plt.subplots(figsize=(12, 7))
-        self.apply_style()
-        self.style_axes(ax)
+    def plot_galaxy(
+        self, factions: list[str], values: ArrayLike, ax: Axes | None = None
+    ) -> Axes:
+        """Draw a bold bar per faction, each labelled with its value.
 
-        faction_colors = [self.colors['light_side'], self.colors['dark_side'],
-                         self.colors['rebellion'], self.colors['empire'], self.colors['neutral']]
+        Args:
+            factions: Faction names along the x-axis.
+            values: Magnitude per faction.
+            ax: Existing axes to draw on, or ``None`` to create a styled figure.
 
-        bars = ax.bar(range(len(factions)), values,
-                      color=[faction_colors[i % len(faction_colors)] for i in range(len(factions))],
-                      edgecolor='#FFD700', linewidth=2, alpha=0.85)
-
-        ax.set_xticks(range(len(factions)))
-        ax.set_xticklabels(factions, rotation=45, ha='right')
-
-        for i, (bar, value) in enumerate(zip(bars, values)):
-            height = bar.get_height()
-            ax.text(bar.get_x() + bar.get_width()/2., height,
-                   f'{value:.1f}', ha='center', va='bottom',
-                   color='#FFD700', fontweight='bold')
-
-        return ax
+        Returns:
+            The axes the chart was drawn on.
+        """
+        heights = np.asarray(values, dtype=float)
+        faction_colors = [
+            self.colors["light_side"],
+            self.colors["dark_side"],
+            self.colors["rebellion"],
+            self.colors["empire"],
+            self.colors["neutral"],
+        ]
+        with self._target(ax, figsize=(12.0, 7.0)) as target:
+            x = np.arange(len(factions))
+            bars = target.bar(
+                x,
+                heights,
+                color=[
+                    faction_colors[i % len(faction_colors)]
+                    for i in range(len(factions))
+                ],
+                edgecolor=self.colors["neutral"],
+                linewidth=2,
+                alpha=0.85,
+            )
+            target.set_xticks(x)
+            target.set_xticklabels(factions, rotation=45, ha="right")
+            for bar, value in zip(bars, heights, strict=True):
+                target.text(
+                    bar.get_x() + bar.get_width() / 2,
+                    bar.get_height(),
+                    f"{value:.1f}",
+                    ha="center",
+                    va="bottom",
+                    color=self.colors["neutral"],
+                    fontweight="bold",
+                )
+            return target

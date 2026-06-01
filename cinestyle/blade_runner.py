@@ -1,72 +1,79 @@
-import matplotlib.pyplot as plt
-import matplotlib as mpl
-import numpy as np
+"""Blade Runner: cyberpunk neons glowing on deep, dark backgrounds."""
+
+from __future__ import annotations
+
+from collections.abc import Sequence
+
+from matplotlib.axes import Axes
+from matplotlib.colors import LinearSegmentedColormap
+from numpy.typing import ArrayLike
+
 from .base import CinematicStyle
 
 
 class BladeRunner(CinematicStyle):
-    def apply_style(self):
-        self.save_defaults()
-        plt.style.use('dark_background')
-        mpl.rcParams['figure.facecolor'] = '#0a0a0a'
-        mpl.rcParams['axes.facecolor'] = '#0a0a0a'
-        mpl.rcParams['axes.edgecolor'] = '#00FFFF'
-        mpl.rcParams['text.color'] = '#00FFFF'
-        mpl.rcParams['axes.labelcolor'] = '#00FFFF'
-        mpl.rcParams['xtick.color'] = '#00FFFF'
-        mpl.rcParams['ytick.color'] = '#00FFFF'
-        mpl.rcParams['grid.color'] = '#FF00FF'
-        mpl.rcParams['grid.alpha'] = 0.3
+    """Neon cyan-and-magenta styling for modern, futuristic, technical charts."""
 
-    def style_axes(self, ax):
-        ax.set_facecolor('#0a0a0a')
-        ax.spines['top'].set_visible(False)
-        ax.spines['right'].set_visible(False)
-        ax.spines['left'].set_color('#00FFFF')
-        ax.spines['bottom'].set_color('#00FFFF')
-        ax.tick_params(colors='#00FFFF')
-        ax.xaxis.label.set_color('#00FFFF')
-        ax.yaxis.label.set_color('#00FFFF')
-        ax.grid(True, alpha=0.2, color='#FF00FF')
+    name = "blade_runner"
+    base_style = "dark_background"
+    background = "#0a0a0a"
+    surface = "#0a0a0a"
+    foreground = "#00FFFF"
+    edge_color = "#00FFFF"
+    grid_color = "#FF00FF"
+    grid_alpha = 0.25
+    cmap = "cool"
+    palette = ("#00FFFF", "#FF00FF", "#FFFF00", "#0080FF", "#FF1493")
+    colors = {
+        "neon_cyan": "#00FFFF",
+        "neon_magenta": "#FF00FF",
+        "neon_yellow": "#FFFF00",
+        "electric_blue": "#0080FF",
+        "hot_pink": "#FF1493",
+        "background": "#0a0a0a",
+        "primary": "#00FFFF",
+    }
 
-    @property
-    def colors(self):
-        return {
-            'neon_cyan': '#00FFFF',
-            'neon_magenta': '#FF00FF',
-            'neon_yellow': '#FFFF00',
-            'electric_blue': '#0080FF',
-            'hot_pink': '#FF1493',
-            'background': '#0a0a0a',
-            'primary': '#00FFFF'
-        }
+    def plot_neon_lines(
+        self,
+        *datasets: ArrayLike,
+        labels: Sequence[str] | None = None,
+        ax: Axes | None = None,
+    ) -> Axes:
+        """Plot one or more series cycling through the neon palette.
 
-    def plot_neon_lines(self, *datasets, labels=None, ax=None):
-        if ax is None:
-            fig, ax = plt.subplots(figsize=(12, 6))
-        self.apply_style()
-        self.style_axes(ax)
+        Args:
+            *datasets: One or more series to draw.
+            labels: Optional labels; default to ``Signal 1..n``.
+            ax: Existing axes to draw on, or ``None`` to create a styled figure.
 
-        neon_colors = ['#00FFFF', '#FF00FF', '#FFFF00', '#0080FF']
-        for i, data in enumerate(datasets):
-            color = neon_colors[i % len(neon_colors)]
-            label = labels[i] if labels and i < len(labels) else f'Signal {i+1}'
-            ax.plot(data, color=color, linewidth=2.5, alpha=0.9, label=label)
+        Returns:
+            The axes the chart was drawn on.
+        """
+        with self._target(ax, figsize=(12.0, 6.0)) as target:
+            for i, data in enumerate(datasets):
+                color = self.palette[i % len(self.palette)]
+                label = labels[i] if labels and i < len(labels) else f"Signal {i + 1}"
+                target.plot(data, color=color, linewidth=2.5, alpha=0.9, label=label)
+            target.legend(facecolor=self.background, edgecolor=self.foreground)
+            return target
 
-        ax.legend(facecolor='#0a0a0a', edgecolor='#00FFFF')
-        return ax
+    def plot_matrix(self, matrix: ArrayLike, ax: Axes | None = None) -> Axes:
+        """Render a matrix through a custom cyberpunk colormap with a colorbar.
 
-    def plot_matrix(self, matrix_data, ax=None):
-        if ax is None:
-            fig, ax = plt.subplots(figsize=(10, 8))
-        self.apply_style()
-        self.style_axes(ax)
+        Args:
+            matrix: 2-D data to display as an image.
+            ax: Existing axes to draw on, or ``None`` to create a styled figure.
 
-        from matplotlib.colors import LinearSegmentedColormap
-        colors = ['#0a0a0a', '#FF00FF', '#00FFFF']
-        n_bins = 100
-        cmap = LinearSegmentedColormap.from_list('cyberpunk', colors, N=n_bins)
-
-        im = ax.imshow(matrix_data, cmap=cmap, aspect='auto')
-        plt.colorbar(im, ax=ax)
-        return ax
+        Returns:
+            The axes the chart was drawn on.
+        """
+        cmap = LinearSegmentedColormap.from_list(
+            "cyberpunk",
+            [self.background, self.colors["neon_magenta"], self.colors["neon_cyan"]],
+            N=256,
+        )
+        with self._target(ax, figsize=(10.0, 8.0)) as target:
+            im = target.imshow(matrix, cmap=cmap, aspect="auto")
+            target.figure.colorbar(im, ax=target)
+            return target
