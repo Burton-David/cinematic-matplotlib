@@ -50,6 +50,10 @@ class Look:
     highlight_tint: str = "#FFFFFF"
     tint_strength: float = 0.0
 
+    def __post_init__(self) -> None:
+        if self.gamma <= 0:
+            raise ValueError(f"gamma must be positive, got {self.gamma}")
+
     def apply(self, image: NDArray[np.float64]) -> NDArray[np.float64]:
         """Apply the grade to an RGB(A) image array with values in [0, 1].
 

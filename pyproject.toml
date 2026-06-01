@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=64"]
+requires = ["setuptools>=77"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -8,13 +8,14 @@ version = "0.2.0"
 description = "Cinematic matplotlib styles inspired by iconic films, plus a reusable-brand API"
 readme = "README.md"
 requires-python = ">=3.10"
-license = { text = "MIT" }
+license = "MIT"
+license-files = ["LICENSE"]
 authors = [{ name = "David Burton", email = "david@databurton.com" }]
 keywords = ["matplotlib", "visualization", "styling", "theme", "cinematic", "branding"]
 classifiers = [
     "Development Status :: 4 - Beta",
+    "Framework :: Matplotlib",
     "Intended Audience :: Science/Research",
-    "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.10",
@@ -43,8 +44,6 @@ dev = [
     "pytest-mpl>=0.17",
     "daltonlens>=0.1.5",
     "colour-science>=0.4.4",
-    "glasbey>=0.2",
-    "colorspacious>=1.1",
     "plotly>=5.0",
     "kaleido>=0.2",
     "altair>=5.5",
@@ -54,8 +53,9 @@ dev = [
 
 [project.urls]
 Homepage = "https://github.com/Burton-David/cinematic-matplotlib"
+Documentation = "https://github.com/Burton-David/cinematic-matplotlib/blob/main/docs/gallery.md"
 Repository = "https://github.com/Burton-David/cinematic-matplotlib"
-Author = "https://databurton.com"
+Issues = "https://github.com/Burton-David/cinematic-matplotlib/issues"
 
 [tool.setuptools.packages.find]
 include = ["cinestyle*"]

@@ -33,8 +33,8 @@ here as a courtesy and, where a license requires it, as attribution.
 All bundled fonts are licensed under the SIL Open Font License v1.1; the full
 license text for each ships in `cinestyle/data/fonts/licenses/`.
 
-- Orbitron, Oswald, Jost, EB Garamond, Anton, Bebas Neue, Share Tech Mono,
-  Space Grotesk, © their respective authors, via Google Fonts.
+- Oswald, Jost, EB Garamond, Anton, Bebas Neue, Share Tech Mono, Space Grotesk,
+  © their respective authors, via Google Fonts.
 
 ## Film-look LUTs
 

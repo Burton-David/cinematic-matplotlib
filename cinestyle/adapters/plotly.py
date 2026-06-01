@@ -8,10 +8,19 @@ doing the rendering; the family name is set regardless.
 
 from __future__ import annotations
 
+from importlib.util import find_spec
 from typing import Any
 
 from ..registry import get_theme, list_themes
 from ..theme import Theme
+
+
+def _require_plotly() -> None:
+    if find_spec("plotly") is None:
+        raise ImportError(
+            "The Plotly adapter needs the optional dependency 'plotly' (and "
+            "'kaleido' to export images): pip install 'cinestyle[plotly]'"
+        )
 
 
 def _scale(theme: Theme, which: str, n: int = 11) -> list[list[Any]]:
@@ -22,6 +31,7 @@ def _scale(theme: Theme, which: str, n: int = 11) -> list[list[Any]]:
 
 def to_plotly_template(theme: str | Theme) -> Any:
     """Build a ``plotly.graph_objects.layout.Template`` for *theme*."""
+    _require_plotly()
     import plotly.graph_objects as go
 
     t = theme if isinstance(theme, Theme) else get_theme(theme)
@@ -58,6 +68,7 @@ def register_plotly(prefix: str = "cinestyle") -> list[str]:
     Returns:
         The registered template names.
     """
+    _require_plotly()
     import plotly.io as pio
 
     names = []
@@ -70,6 +81,7 @@ def register_plotly(prefix: str = "cinestyle") -> list[str]:
 
 def use_plotly(theme: str | Theme, prefix: str = "cinestyle") -> str:
     """Register *theme* and make it Plotly's default template; return its name."""
+    _require_plotly()
     import plotly.io as pio
 
     t = theme if isinstance(theme, Theme) else get_theme(theme)

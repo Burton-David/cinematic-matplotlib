@@ -248,31 +248,34 @@ def accessible_variant(
     threshold: float = DEFAULT_THRESHOLD,
     tritan_threshold: float = TRITAN_THRESHOLD,
 ) -> list[str]:
-    """Return a colorblind-safe palette of the same length as *palette*.
+    """Return a colorblind-safe palette the same length as *palette*.
 
-    Keeps as many original colors as stay distinguishable under all CVD types,
-    fills the rest from known-safe donor palettes (Okabe-Ito, Paul Tol), then
-    orders the result by lightness so it also degrades gracefully to grayscale
-    and print.
-
-    Args:
-        palette: The original hex palette.
-        threshold: CIEDE2000 separation each kept color must maintain under CVD.
+    A color is accepted only if it stays distinct from every color already
+    chosen under each CVD type, so the result is safe by construction: nothing
+    is ever padded in unchecked (the bug that let an unsafe palette be reported
+    safe). Original colors are kept where they survive; the rest come from
+    known-safe donors (Okabe-Ito, Paul Tol). If kept originals leave it short of
+    the target, it rebuilds from the donors alone, which can always supply a safe
+    set of up to eight colors. The result is lightness-ordered so it also
+    degrades gracefully to grayscale and print.
     """
     target = len(palette)
-    pool = list(palette) + [c for c in _SAFE_DONORS if c not in palette]
-    accepted: list[str] = []
-    for candidate in pool:
-        if len(accepted) >= target:
-            break
-        if _cvd_safe_against(candidate, accepted, threshold, tritan_threshold):
-            accepted.append(candidate)
-    # Pad (rare) if the safe set is short, preserving uniqueness.
-    for candidate in pool:
-        if len(accepted) >= target:
-            break
-        if candidate not in accepted:
-            accepted.append(candidate)
-    accepted = accepted[:target]
+
+    def fill(pool: list[str]) -> list[str]:
+        chosen: list[str] = []
+        for candidate in pool:
+            if len(chosen) >= target:
+                break
+            if candidate not in chosen and _cvd_safe_against(
+                candidate, chosen, threshold, tritan_threshold
+            ):
+                chosen.append(candidate)
+        return chosen
+
+    accepted = fill([*palette, *_SAFE_DONORS])
+    if len(accepted) < target:
+        # Kept originals can block donors; rebuild from the donors alone, now
+        # including Okabe-Ito's black so eight mutually distinct colors exist.
+        accepted = fill([*OKABE_ITO, *TOL_BRIGHT])
     accepted.sort(key=_lightness)
     return accepted

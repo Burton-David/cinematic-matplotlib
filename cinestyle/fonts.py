@@ -1,6 +1,6 @@
 """Register the bundled OFL fonts with matplotlib.
 
-Themes reference real fonts (Orbitron, EB Garamond, Jost, ...) so a chart looks
+Themes reference real fonts (Share Tech Mono, EB Garamond, Jost, ...) so a chart looks
 the same on every machine, not just on one that happens to have the font
 installed. matplotlib's font manager keeps a persisted cache that does not know
 about our bundled files, so the fonts are (idempotently) registered at import
