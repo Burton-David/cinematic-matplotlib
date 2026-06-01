@@ -49,7 +49,7 @@ def hero() -> Figure:
     before.set_facecolor("white")
     for s in series:
         before.plot(x, s, linewidth=2)
-    before.set_title("Before — matplotlib default", color="#C9C9D1")
+    before.set_title("Before: matplotlib default", color="#C9C9D1")
     before.tick_params(colors="#C9C9D1")
     for spine in before.spines.values():
         spine.set_color("#777")
@@ -60,7 +60,7 @@ def hero() -> Figure:
         for s in series:
             after.plot(x, s, linewidth=2.5)
         cs.add_glow(after, intensity=theme.glow)
-        after.set_title("After — cinestyle blade_runner", color=theme.foreground)
+        after.set_title("After: cinestyle blade_runner", color=theme.foreground)
         after.set_facecolor(theme.surface)
         for spine in after.spines.values():
             spine.set_color(theme.foreground)
@@ -70,7 +70,7 @@ def hero() -> Figure:
 
 
 def theme_card(name: str) -> Figure:
-    """A showcase card for one theme: the color cycle and the sequential map."""
+    """One theme's card: its color cycle next to its sequential colormap."""
     theme = cs.get_theme(name)
     x, series = _signals(len(theme.palette))
     with theme.use():
@@ -100,7 +100,7 @@ def accessibility_demo() -> Figure:
     fig, axes = plt.subplots(1, 2, figsize=(11.0, 3.2), facecolor="#0A0C12")
     for ax, palette, title in (
         (axes[0], theme.palette, "blade_runner"),
-        (axes[1], safe.palette, "blade_runner — accessible()"),
+        (axes[1], safe.palette, "accessible() variant"),
     ):
         for i, hex_color in enumerate(palette):
             ax.add_patch(plt.Rectangle((i, 0), 1, 1, facecolor=hex_color))
