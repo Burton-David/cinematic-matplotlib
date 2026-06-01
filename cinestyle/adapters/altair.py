@@ -7,10 +7,19 @@ range, and the sequential/diverging ranges. Requires Altair 5.5+ (the
 
 from __future__ import annotations
 
+from importlib.util import find_spec
 from typing import Any
 
 from ..registry import get_theme, list_themes
 from ..theme import Theme
+
+
+def _require_altair() -> None:
+    if find_spec("altair") is None:
+        raise ImportError(
+            "The Altair adapter needs the optional dependency 'altair' (5.5+, and "
+            "'vl-convert-python' to export images): pip install 'cinestyle[altair]'"
+        )
 
 
 def to_altair_theme(theme: str | Theme) -> dict[str, Any]:
@@ -69,6 +78,7 @@ def register_altair(prefix: str = "cinestyle", enable: str | None = None) -> lis
     Returns:
         The registered theme names.
     """
+    _require_altair()
     import altair as alt
 
     api = _require_theme_api(alt)
@@ -85,6 +95,7 @@ def register_altair(prefix: str = "cinestyle", enable: str | None = None) -> lis
 
 def use_altair(theme: str | Theme, prefix: str = "cinestyle") -> str:
     """Register *theme* and enable it as the active Altair theme; return its name."""
+    _require_altair()
     import altair as alt
 
     api = _require_theme_api(alt)

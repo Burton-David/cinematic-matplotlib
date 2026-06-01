@@ -15,7 +15,6 @@ from __future__ import annotations
 from .luts import Look
 from .theme import Theme
 
-# --------------------------------------------------------------------- looks
 # Original, hand-built grades (no third-party film-emulation LUTs redistributed).
 LOOKS: dict[str, Look] = {
     "neon_night": Look(
@@ -110,10 +109,14 @@ LOOKS: dict[str, Look] = {
 
 def get_look(name: str) -> Look:
     """Return the named film-look grade."""
-    return LOOKS[name]
+    try:
+        return LOOKS[name]
+    except KeyError:
+        raise KeyError(
+            f"Unknown look {name!r}. Available: {', '.join(sorted(LOOKS))}"
+        ) from None
 
 
-# -------------------------------------------------------------------- themes
 _THEME_LIST: list[Theme] = [
     Theme(
         name="noir",
