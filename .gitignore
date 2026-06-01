@@ -31,4 +31,5 @@ docs/
 # Example/scratch output (the committed gallery lives in images/)
 examples/*.png
 quickstart_*.png
-acme.mplstyle
+*.mplstyle
+*.cube
