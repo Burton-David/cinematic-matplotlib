@@ -6,9 +6,9 @@
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![Linter: ruff](https://img.shields.io/badge/linter-ruff-261230.svg)](https://github.com/astral-sh/ruff)
 
-Cinematic matplotlib theming, done with color science. Ten film-inspired themes
-that are **beautiful, correct, and accessible** — and an API for defining your
-own brand. Same data, cinematic finish:
+Cinematic matplotlib theming, done with color science. Thirteen film-inspired
+themes that are **beautiful, correct, and accessible** — and an API for defining
+your own brand. Same data, cinematic finish:
 
 ![Before and after](images/hero_before_after.png)
 
@@ -78,6 +78,8 @@ Every image is regenerated from deterministic data by
 | ![star_wars](images/star_wars.png) | ![matrix](images/matrix.png) |
 | ![dune](images/dune.png) | ![fury_road](images/fury_road.png) |
 | ![kill_bill](images/kill_bill.png) | ![in_the_mood](images/in_the_mood.png) |
+| ![sin_city](images/sin_city.png) | ![akira](images/akira.png) |
+| ![the_fall](images/the_fall.png) | |
 
 ## The themes
 
@@ -93,6 +95,9 @@ Every image is regenerated from deterministic data by
 | `fury_road` | Mad Max: Fury Road | Anton |
 | `kill_bill` | Kill Bill | Bebas Neue |
 | `in_the_mood` | In the Mood for Love | EB Garamond |
+| `sin_city` | Sin City | Anton |
+| `akira` | Akira | Orbitron |
+| `the_fall` | The Fall (Tarsem) | EB Garamond |
 
 Each `Theme` exposes its `palette`, `sequential` and `diverging` colormaps,
 `heroes`, and chrome. `cinestyle.list_themes()` lists them all.
