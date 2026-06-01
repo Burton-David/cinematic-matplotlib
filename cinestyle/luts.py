@@ -20,6 +20,7 @@ from pathlib import Path
 import numpy as np
 from matplotlib import colors as mcolors
 from matplotlib.image import AxesImage
+from numpy.typing import NDArray
 
 # Rec. 709 luma weights, used for saturation and split-tone blending.
 _LUMA = np.array([0.2126, 0.7152, 0.0722])
@@ -49,7 +50,7 @@ class Look:
     highlight_tint: str = "#FFFFFF"
     tint_strength: float = 0.0
 
-    def apply(self, image: np.ndarray) -> np.ndarray:
+    def apply(self, image: NDArray[np.float64]) -> NDArray[np.float64]:
         """Apply the grade to an RGB(A) image array with values in [0, 1].
 
         Args:

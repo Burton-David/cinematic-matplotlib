@@ -30,6 +30,7 @@ from collections.abc import Sequence
 import numpy as np
 from coloraide import Color
 from matplotlib.colors import Colormap, LinearSegmentedColormap
+from numpy.typing import NDArray
 
 # Number of samples used to render a colormap to a fixed-size lookup table.
 _LUT = 256
@@ -262,7 +263,7 @@ def diverging_cmap(
     return _ramp(stops, name)
 
 
-def lightness_profile(cmap: Colormap, samples: int = _LUT) -> np.ndarray:
+def lightness_profile(cmap: Colormap, samples: int = _LUT) -> NDArray[np.float64]:
     """Return the OKLCH lightness sampled evenly across *cmap*.
 
     Used to verify that sequential maps are monotonic and diverging maps are
