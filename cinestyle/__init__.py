@@ -83,6 +83,10 @@ def _resolve_palette(
     if isinstance(target, Theme):
         return list(target.palette), background or target.background
     if isinstance(target, str):
+        # A lone hex string is a one-color palette, not a theme name; a bare
+        # name that is not a theme still errors helpfully via get_theme.
+        if target.startswith("#"):
+            return [target], background
         theme = get_theme(target)
         return list(theme.palette), background or theme.background
     return list(target), background
