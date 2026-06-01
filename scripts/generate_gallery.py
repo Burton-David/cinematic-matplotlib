@@ -455,23 +455,44 @@ def hero() -> Figure:
 
 
 def accessibility_demo() -> Figure:
-    """Show a theme palette beside its colorblind-safe variant."""
-    theme = cs.get_theme("blade_runner")
-    safe = cs.repair("blade_runner")
-    fig, axes = plt.subplots(1, 2, figsize=(11.0, 3.2), facecolor="#0A0C12")
-    for ax, palette, title in (
-        (axes[0], theme.palette, "blade_runner"),
-        (axes[1], safe, "repaired (colorblind safe)"),
-    ):
-        for i, hex_color in enumerate(palette):
+    """Show a palette collapsing under color-vision deficiency, then repaired.
+
+    Normal vision tells the original colors apart, so swatches alone prove
+    nothing; the simulated rows are where the collapse (and the fix) show.
+    """
+    name = "her"  # its warm palette collapses badly under red-green CVD
+    palette = cs.get_theme(name).palette
+    repaired = cs.repair(name)
+    rows = [
+        (palette, f"{name} (original)"),
+        (cs.accessibility.simulate_palette(palette, "deutan"), "deuteranopia"),
+        (cs.accessibility.simulate_palette(palette, "protan"), "protanopia"),
+        (cs.accessibility.simulate_palette(palette, "tritan"), "tritanopia"),
+        (repaired, "repaired, colorblind safe"),
+    ]
+    fig, axes = plt.subplots(len(rows), 1, figsize=(11.0, 6.0), facecolor="#101216")
+    for ax, (colors, label) in zip(axes, rows, strict=False):
+        for i, hex_color in enumerate(colors):
             ax.add_patch(plt.Rectangle((i, 0), 1, 1, facecolor=hex_color))
-        ax.set_xlim(0, len(palette))
+        ax.set_xlim(0, len(colors))
         ax.set_ylim(0, 1)
-        ax.set_title(title, color="white", fontsize=13)
+        ax.set_ylabel(
+            label, color="#dcdcdc", fontsize=11, rotation=0, ha="right", va="center"
+        )
         ax.set_xticks([])
         ax.set_yticks([])
-        ax.set_facecolor("#0A0C12")
-    fig.tight_layout()
+        ax.set_facecolor("#101216")
+        for spine in ax.spines.values():
+            spine.set_visible(False)
+    before = cs.audit(name).cvd_min_delta_e["deutan"]
+    after = cs.audit(repaired).cvd_min_delta_e["deutan"]
+    fig.suptitle(
+        f"cs.audit('{name}'): min delta E {before:.1f} under deuteranopia, "
+        f"repaired to {after:.1f}",
+        color="white",
+        fontsize=13,
+    )
+    fig.tight_layout(rect=(0, 0, 1, 0.95))
     return fig
 
 

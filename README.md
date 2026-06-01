@@ -120,7 +120,7 @@ data by `python scripts/generate_gallery.py` (add `--reel` to rebuild the GIF).
 | `noir` | Film noir / chiaroscuro | Oswald |
 | `ghibli` | Studio Ghibli | EB Garamond |
 | `wes_anderson` | Wes Anderson | Jost |
-| `blade_runner` | Blade Runner (neon-noir) | Orbitron |
+| `blade_runner` | Blade Runner (neon-noir) | Share Tech Mono |
 | `star_wars` | Star Wars | Oswald |
 | `matrix` | The Matrix | Share Tech Mono |
 | `dune` | Dune (Villeneuve) | Space Grotesk |
@@ -128,9 +128,9 @@ data by `python scripts/generate_gallery.py` (add `--reel` to rebuild the GIF).
 | `kill_bill` | Kill Bill | Bebas Neue |
 | `in_the_mood` | In the Mood for Love | EB Garamond |
 | `sin_city` | Sin City | Anton |
-| `akira` | Akira | Orbitron |
+| `akira` | Akira | Share Tech Mono |
 | `the_fall` | The Fall (Tarsem) | EB Garamond |
-| `tron` | Tron: Legacy | Orbitron |
+| `tron` | Tron: Legacy | Share Tech Mono |
 | `amelie` | Amélie | EB Garamond |
 | `the_shining` | The Shining (Kubrick) | Bebas Neue |
 | `drive` | Drive | Share Tech Mono |
@@ -139,7 +139,7 @@ data by `python scripts/generate_gallery.py` (add `--reel` to rebuild the GIF).
 | `hero` | Hero (Zhang Yimou) | Oswald |
 | `suspiria` | Suspiria | Anton |
 | `moonlight` | Moonlight | Jost |
-| `blade_runner_2049` | Blade Runner 2049 | Orbitron |
+| `blade_runner_2049` | Blade Runner 2049 | Space Grotesk |
 | `her` | Her | EB Garamond |
 
 Each `Theme` exposes its `palette`, `sequential` and `diverging` colormaps,
