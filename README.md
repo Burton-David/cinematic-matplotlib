@@ -10,11 +10,11 @@ Cinematic data-viz theming, done with color science. Twenty-four film-inspired
 themes that are **beautiful, correct, and accessible**, defined once and applied
 to **matplotlib, Plotly, or Altair**, plus an API for defining your own brand.
 
-![Twenty-four film looks, one per frame](images/cinestyle_reel.gif)
+![Twenty-four film looks, one per frame](https://raw.githubusercontent.com/Burton-David/cinematic-matplotlib/v0.2.0/images/cinestyle_reel.gif)
 
 Every theme plots data from its own film. Same data, cinematic finish:
 
-![Before and after](images/hero_before_after.png)
+![Before and after](https://raw.githubusercontent.com/Burton-David/cinematic-matplotlib/v0.2.0/images/hero_before_after.png)
 
 ## Why this exists
 
@@ -22,8 +22,8 @@ Most "pretty matplotlib" packages pick colors by eye and only look right on the
 one chart in their README. cinestyle is built differently:
 
 - **Perceptually derived.** Each theme's categorical palette and its sequential
-  and diverging colormaps are computed in a perceptual color space (OKLCH /
-  CAM02-UCS) from a few sourced "hero" colors, not hand-waved. Sequential maps
+  and diverging colormaps are computed in a perceptual color space (OKLCH, with
+  CIEDE2000 distances) from a few sourced "hero" colors, not hand-waved. Sequential maps
   have monotonic lightness; diverging maps are symmetric.
 - **One spec, three backends.** Define a theme once and apply it to matplotlib,
   Plotly, or Altair. The palette, the sequential/diverging colormaps, and the
@@ -41,8 +41,10 @@ one chart in their README. cinestyle is built differently:
 ## Install
 
 ```bash
-pip install git+https://github.com/Burton-David/cinematic-matplotlib.git
+pip install cinestyle
 ```
+
+Latest unreleased build: `pip install git+https://github.com/Burton-David/cinematic-matplotlib.git`.
 
 Optional extras: `cinestyle[plotly]`, `cinestyle[altair]` (the other backends),
 `cinestyle[a11y]` (color-vision checks), `cinestyle[luts]` (reading external
@@ -89,7 +91,7 @@ fig.update_layout(template="cinestyle-blade_runner")   # or use_plotly("dune")
 cinestyle.register_altair(enable="dune")               # enables the theme
 ```
 
-See [docs/gallery.md](docs/gallery.md) for the same theme rendered across all
+See [docs/gallery.md](https://github.com/Burton-David/cinematic-matplotlib/blob/v0.2.0/docs/gallery.md) for the same theme rendered across all
 three backends side by side.
 
 ## Gallery
@@ -100,18 +102,18 @@ data by `python scripts/generate_gallery.py` (add `--reel` to rebuild the GIF).
 
 | | |
 |---|---|
-| ![noir](images/noir.png) | ![ghibli](images/ghibli.png) |
-| ![wes_anderson](images/wes_anderson.png) | ![blade_runner](images/blade_runner.png) |
-| ![star_wars](images/star_wars.png) | ![matrix](images/matrix.png) |
-| ![dune](images/dune.png) | ![fury_road](images/fury_road.png) |
-| ![kill_bill](images/kill_bill.png) | ![in_the_mood](images/in_the_mood.png) |
-| ![sin_city](images/sin_city.png) | ![akira](images/akira.png) |
-| ![the_fall](images/the_fall.png) | ![tron](images/tron.png) |
-| ![amelie](images/amelie.png) | ![the_shining](images/the_shining.png) |
-| ![drive](images/drive.png) | ![grand_budapest](images/grand_budapest.png) |
-| ![nolan](images/nolan.png) | ![hero](images/hero.png) |
-| ![suspiria](images/suspiria.png) | ![moonlight](images/moonlight.png) |
-| ![blade_runner_2049](images/blade_runner_2049.png) | ![her](images/her.png) |
+| ![noir](https://raw.githubusercontent.com/Burton-David/cinematic-matplotlib/v0.2.0/images/noir.png) | ![ghibli](https://raw.githubusercontent.com/Burton-David/cinematic-matplotlib/v0.2.0/images/ghibli.png) |
+| ![wes_anderson](https://raw.githubusercontent.com/Burton-David/cinematic-matplotlib/v0.2.0/images/wes_anderson.png) | ![blade_runner](https://raw.githubusercontent.com/Burton-David/cinematic-matplotlib/v0.2.0/images/blade_runner.png) |
+| ![star_wars](https://raw.githubusercontent.com/Burton-David/cinematic-matplotlib/v0.2.0/images/star_wars.png) | ![matrix](https://raw.githubusercontent.com/Burton-David/cinematic-matplotlib/v0.2.0/images/matrix.png) |
+| ![dune](https://raw.githubusercontent.com/Burton-David/cinematic-matplotlib/v0.2.0/images/dune.png) | ![fury_road](https://raw.githubusercontent.com/Burton-David/cinematic-matplotlib/v0.2.0/images/fury_road.png) |
+| ![kill_bill](https://raw.githubusercontent.com/Burton-David/cinematic-matplotlib/v0.2.0/images/kill_bill.png) | ![in_the_mood](https://raw.githubusercontent.com/Burton-David/cinematic-matplotlib/v0.2.0/images/in_the_mood.png) |
+| ![sin_city](https://raw.githubusercontent.com/Burton-David/cinematic-matplotlib/v0.2.0/images/sin_city.png) | ![akira](https://raw.githubusercontent.com/Burton-David/cinematic-matplotlib/v0.2.0/images/akira.png) |
+| ![the_fall](https://raw.githubusercontent.com/Burton-David/cinematic-matplotlib/v0.2.0/images/the_fall.png) | ![tron](https://raw.githubusercontent.com/Burton-David/cinematic-matplotlib/v0.2.0/images/tron.png) |
+| ![amelie](https://raw.githubusercontent.com/Burton-David/cinematic-matplotlib/v0.2.0/images/amelie.png) | ![the_shining](https://raw.githubusercontent.com/Burton-David/cinematic-matplotlib/v0.2.0/images/the_shining.png) |
+| ![drive](https://raw.githubusercontent.com/Burton-David/cinematic-matplotlib/v0.2.0/images/drive.png) | ![grand_budapest](https://raw.githubusercontent.com/Burton-David/cinematic-matplotlib/v0.2.0/images/grand_budapest.png) |
+| ![nolan](https://raw.githubusercontent.com/Burton-David/cinematic-matplotlib/v0.2.0/images/nolan.png) | ![hero](https://raw.githubusercontent.com/Burton-David/cinematic-matplotlib/v0.2.0/images/hero.png) |
+| ![suspiria](https://raw.githubusercontent.com/Burton-David/cinematic-matplotlib/v0.2.0/images/suspiria.png) | ![moonlight](https://raw.githubusercontent.com/Burton-David/cinematic-matplotlib/v0.2.0/images/moonlight.png) |
+| ![blade_runner_2049](https://raw.githubusercontent.com/Burton-David/cinematic-matplotlib/v0.2.0/images/blade_runner_2049.png) | ![her](https://raw.githubusercontent.com/Burton-David/cinematic-matplotlib/v0.2.0/images/her.png) |
 
 ## The themes
 
@@ -168,7 +170,7 @@ cinestyle.audit(["#D62728", "#2CA02C"])      # check your own colors
 safe = cinestyle.repair("blade_runner")      # a colorblind-safe version
 ```
 
-![accessibility](images/accessibility.png)
+![accessibility](https://raw.githubusercontent.com/Burton-David/cinematic-matplotlib/v0.2.0/images/accessibility.png)
 
 Checks simulate the palette under each color-vision deficiency and flag any pair
 that *collapses* (CIEDE2000), plus WCAG non-text contrast against the background.
@@ -219,12 +221,12 @@ scoped context restores global state, palettes pass the accessibility checks.
 
 cinestyle is an independent, inspired-by tribute and is not affiliated with or
 endorsed by any rights holder; film titles are trademarks of their owners. See
-[NOTICE.md](NOTICE.md) for palette sources (incl. the `wesanderson` and `ghibli`
+[NOTICE.md](https://github.com/Burton-David/cinematic-matplotlib/blob/v0.2.0/NOTICE.md) for palette sources (incl. the `wesanderson` and `ghibli`
 palette projects) and bundled-font licenses.
 
 ## License
 
-MIT. See [LICENSE](LICENSE).
+MIT. See [LICENSE](https://github.com/Burton-David/cinematic-matplotlib/blob/v0.2.0/LICENSE).
 
 ## Author
 

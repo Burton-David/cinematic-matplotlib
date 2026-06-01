@@ -46,7 +46,7 @@ class Theme(RcStyle):
         title_weight: Weight for axes and figure titles.
         cycle_length: Number of colors in the derived categorical cycle.
         seq_anchor: Hue source for the sequential colormap (default: primary).
-        div_pair: Two colors for the diverging colormap (default: first two heroes).
+        div_pair: Two colors for the diverging colormap (default: first and last hero).
         glow: Suggested default glow intensity for :func:`cinestyle.add_glow`.
         look: Name of the film-look LUT associated with this theme, if any.
         film: Which film / color grade this theme targets (documentation).
@@ -74,7 +74,6 @@ class Theme(RcStyle):
     note: str = ""
     extra_rc: Mapping[str, Any] = field(default_factory=dict)
 
-    # ------------------------------------------------------------------ colors
     @cached_property
     def palette(self) -> list[str]:
         """The categorical color cycle, derived from the heroes (mood-preserving).
@@ -137,10 +136,16 @@ class Theme(RcStyle):
         is not portable, but the hex stops it samples to are accepted as a color
         scale by Plotly, Altair and the rest.
         """
-        cmap = self.diverging if which == "diverging" else self.sequential
+        if which == "sequential":
+            cmap = self.sequential
+        elif which == "diverging":
+            cmap = self.diverging
+        else:
+            raise ValueError(
+                f"which must be 'sequential' or 'diverging', got {which!r}"
+            )
         return [mcolors.to_hex(cmap(v)) for v in np.linspace(0.0, 1.0, n)]
 
-    # ------------------------------------------------------------ registration
     def _register_assets(self) -> None:
         """Register this theme's colormaps and named colors (idempotent)."""
         for cmap_name, cmap in self.colormaps.items():
@@ -150,7 +155,6 @@ class Theme(RcStyle):
         for i, hero in enumerate(self.heroes):
             named[f"cinestyle:{self.name}-{i + 1}"] = hero
 
-    # ----------------------------------------------------------------- rcParams
     def as_rc(self) -> dict[str, Any]:
         """Assemble the full rcParams mapping that defines this theme.
 
@@ -218,7 +222,6 @@ class Theme(RcStyle):
         rc.update(self.extra_rc)
         return rc
 
-    # ------------------------------------------------------------------ usage
     def register(self, name: str | None = None) -> str:
         """Register the style sheet *and* this theme's colormaps and colors."""
         self._register_assets()

@@ -98,7 +98,7 @@ seen = cs.accessibility.simulate_palette(cs.get_theme("her").palette, "deutan")
 The palette, background, and grid carry across all three backends. Two things do
 not, by design:
 
-- The bundled display fonts (Orbitron and similar) are loaded into matplotlib
+- The bundled display fonts (Share Tech Mono and similar) are loaded into matplotlib
   only. Plotly and Altair render with a system fallback font, so text in their
   output uses a plain sans face.
 - The neon glow effect (`cs.add_glow`) and the film-look LUTs are matplotlib-only
