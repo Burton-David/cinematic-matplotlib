@@ -83,7 +83,16 @@ class Theme(RcStyle):
         """
         if self.palette_override is not None:
             return list(self.palette_override)
-        return _color.categorical_cycle(self.heroes, self.cycle_length)
+        # Constrain *added* colors to a lightness band that stays visible against
+        # the theme's surface (the sourced heroes are always kept verbatim): on a
+        # dark theme keep extensions clearly lighter than the background, and the
+        # reverse on a light theme.
+        surface_l = _color.lightness(self.surface)
+        if surface_l < 0.5:
+            band = (max(0.42, surface_l + 0.2), 0.9)  # lighter than a dark surface
+        else:
+            band = (0.32, min(0.72, surface_l - 0.1))  # darker than a light surface
+        return _color.categorical_cycle(self.heroes, self.cycle_length, lightness=band)
 
     @property
     def primary(self) -> str:

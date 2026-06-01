@@ -65,6 +65,11 @@ def _oklab_coords(color: Color) -> tuple[float, float, float]:
     return float(lab["lightness"]), float(lab["a"]), float(lab["b"])
 
 
+def lightness(color: str | Color) -> float:
+    """Return the OKLCH lightness (0..1) of *color*."""
+    return _oklch(color)[0]
+
+
 def delta_e2000(color1: str | Color, color2: str | Color) -> float:
     """Perceptual CIEDE2000 difference between two colors (0 == identical)."""
     return float(Color(color1).delta_e(Color(color2), method="2000"))
@@ -136,16 +141,16 @@ def categorical_cycle(
     # Candidate hues stay within the heroes' own hue family (a window around each
     # hero hue, plus midpoints between them) so additions keep the film's mood.
     # For a single-hue theme this means extensions separate by lightness alone.
+    # Candidate hues are sampled only in a window around each hero hue. We do NOT
+    # add midpoints between heroes: when hero hues straddle a wide gap (e.g. a
+    # red-and-purple palette), the arithmetic midpoint lands on a third,
+    # off-mood hue (green), which breaks the film's identity.
     hero_hues = [p[2] for p in profiles]
     window = 22.0
     hues: set[float] = set()
     for hue in hero_hues:
         for offset in np.linspace(-window, window, 5):
             hues.add(round((hue + offset) % 360.0, 2))
-    unique_hues = sorted({round(h, 1) for h in hero_hues})
-    for i in range(len(unique_hues)):
-        nxt = unique_hues[(i + 1) % len(unique_hues)]
-        hues.add(round(((unique_hues[i] + nxt) / 2.0) % 360.0, 2))
 
     candidates: list[Color] = []
     for light in np.linspace(lo_l, hi_l, 9):

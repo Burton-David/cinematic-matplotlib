@@ -1,6 +1,6 @@
 """cinestyle: cinematic matplotlib theming, done with color science.
 
-Ten film-inspired themes (and a brand authoring API) that are *beautiful,
+Thirteen film-inspired themes (and a brand authoring API) that are *beautiful,
 correct, and accessible*: palettes and colormaps are derived in a perceptual
 color space, bundled fonts make them reproducible, an optional glow brings the
 neon looks to life, and any palette can be checked or repaired for color-vision
