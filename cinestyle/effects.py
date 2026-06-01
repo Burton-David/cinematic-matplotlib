@@ -1,9 +1,9 @@
-"""Post-processing visual effects -- principally the neon glow/bloom.
+"""Post-processing visual effects, principally the neon glow/bloom.
 
 Glow cannot live in rcParams (there is no rc key for path effects), so it is a
 deliberate post-process step you apply after drawing. The implementation stacks
 translucent :class:`~matplotlib.patheffects.Stroke` layers of increasing width
-beneath the original artist -- one extra artist's worth of work, rather than
+beneath the original artist: one extra artist's worth of work, rather than
 redrawing each line many times.
 """
 

@@ -103,7 +103,7 @@ def categorical_cycle(
     The hero colors come first and are kept verbatim; additional colors are
     chosen by farthest-point sampling in OKLab (each new color maximizes the
     minimum perceptual distance to those already chosen). Candidates are drawn
-    from a "mood box" -- the lightness and chroma band of the heroes -- so the
+    from a "mood box" (the lightness and chroma band of the heroes), so the
     additions stay on-brand while remaining distinguishable.
 
     Args:
@@ -131,7 +131,7 @@ def categorical_cycle(
     else:
         lo_l, hi_l = max(0.0, min(ls) - 0.08), min(1.0, max(ls) + 0.08)
         # Guarantee enough lightness spread that even single-hue ("mono") themes
-        # yield distinguishable categorical colors -- separation a constant-hue
+        # yield distinguishable categorical colors; separation a constant-hue
         # palette can only get from lightness.
         if hi_l - lo_l < 0.55:
             mid = (lo_l + hi_l) / 2.0
@@ -267,7 +267,7 @@ def lightness_profile(cmap: Colormap, samples: int = _LUT) -> np.ndarray:
     """Return the OKLCH lightness sampled evenly across *cmap*.
 
     Used to verify that sequential maps are monotonic and diverging maps are
-    symmetric -- the perceptual-correctness checks for a colormap.
+    symmetric: the perceptual-correctness checks for a colormap.
     """
     values = np.linspace(0.0, 1.0, samples)
     out = np.empty(samples)

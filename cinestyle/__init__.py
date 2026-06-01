@@ -5,7 +5,7 @@ correct, and accessible*: palettes and colormaps are derived in a perceptual
 color space, bundled fonts make them reproducible, an optional glow brings the
 neon looks to life, and any palette can be checked or repaired for color-vision
 deficiency. cinestyle only sets rcParams and registers colormaps, so a theme
-works across every chart type -- you never have to switch themes mid-deck.
+works across every chart type, so you never switch themes mid-deck.
 
 Use a theme three ways::
 
