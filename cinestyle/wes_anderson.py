@@ -1,80 +1,103 @@
-import matplotlib.pyplot as plt
-import matplotlib as mpl
+"""Wes Anderson: framed, symmetrical layouts in curated pastels."""
+
+from __future__ import annotations
+
 import numpy as np
+from matplotlib.axes import Axes
+from matplotlib.patches import Rectangle
+from numpy.typing import ArrayLike
+
 from .base import CinematicStyle
 
 
 class WesAnderson(CinematicStyle):
-    def apply_style(self):
-        self.save_defaults()
-        mpl.rcParams['figure.facecolor'] = '#F5F5DC'
-        mpl.rcParams['axes.facecolor'] = '#F5F5DC'
-        mpl.rcParams['font.family'] = 'serif'
-        mpl.rcParams['axes.edgecolor'] = '#8B7355'
-        mpl.rcParams['grid.color'] = '#D3D3D3'
+    """Symmetrical, pastel styling for balanced, categorical compositions."""
 
-    def style_axes(self, ax):
-        ax.set_facecolor('#F5F5DC')
-        ax.spines['top'].set_color('#8B7355')
-        ax.spines['right'].set_color('#8B7355')
-        ax.spines['left'].set_color('#8B7355')
-        ax.spines['bottom'].set_color('#8B7355')
-        ax.spines['top'].set_linewidth(1.5)
-        ax.spines['right'].set_linewidth(1.5)
-        ax.spines['left'].set_linewidth(1.5)
-        ax.spines['bottom'].set_linewidth(1.5)
+    name = "wes_anderson"
+    background = "#F5F5DC"
+    surface = "#F5F5DC"
+    foreground = "#8B7355"
+    edge_color = "#8B7355"
+    framed = True
+    font_family = "serif"
+    cmap = "pink"
+    palette = (
+        "#FFCBA4",
+        "#87CEEB",
+        "#FFB6C1",
+        "#C1FFC1",
+        "#F4A460",
+        "#DDA0DD",
+        "#98FB98",
+        "#FFE4B5",
+    )
+    colors = {
+        "primary": "#FFCBA4",
+        "secondary": "#87CEEB",
+        "accent": "#FFB6C1",
+        "earth": "#C1FFC1",
+        "sunset": "#F4A460",
+    }
 
-    @property
-    def colors(self):
-        return {
-            'primary': '#FFCBA4',
-            'secondary': '#87CEEB',
-            'accent': '#FFB6C1',
-            'earth': '#C1FFC1',
-            'sunset': '#F4A460'
-        }
+    def plot_symmetry(
+        self,
+        left_data: ArrayLike,
+        right_data: ArrayLike,
+        labels: list[str] | None = None,
+        ax: Axes | None = None,
+    ) -> Axes:
+        """Draw two pastel series mirrored around a center axis.
 
-    @property
-    def palette(self):
-        return ['#FFCBA4', '#87CEEB', '#FFB6C1', '#C1FFC1', '#F4A460',
-                '#DDA0DD', '#98FB98', '#FFE4B5']
+        Args:
+            left_data: Magnitudes drawn to the right of center.
+            right_data: Magnitudes drawn to the left of center.
+            labels: Row labels; defaults to ``Item 1..n``.
+            ax: Existing axes to draw on, or ``None`` to create a styled figure.
 
-    def plot_symmetry(self, left_data, right_data, labels=None, ax=None):
-        if ax is None:
-            fig, ax = plt.subplots(figsize=(14, 6))
-        self.apply_style()
-        self.style_axes(ax)
-
+        Returns:
+            The axes the chart was drawn on.
+        """
+        left = np.asarray(left_data, dtype=float)
+        right = np.asarray(right_data, dtype=float)
         if labels is None:
-            labels = [f'Item {i+1}' for i in range(len(left_data))]
+            labels = [f"Item {i + 1}" for i in range(len(left))]
+        with self._target(ax, figsize=(14.0, 6.0)) as target:
+            y = np.arange(len(labels))
+            target.barh(y, left, color=self.palette[0], alpha=0.85, label="Left")
+            target.barh(y, -right, color=self.palette[1], alpha=0.85, label="Right")
+            target.set_yticks(y)
+            target.set_yticklabels(labels)
+            target.axvline(0, color=self.foreground, linewidth=2)
+            target.legend()
+            return target
 
-        y_pos = np.arange(len(labels))
-        ax.barh(y_pos, left_data, color=self.palette[0], alpha=0.8, label='Left')
-        ax.barh(y_pos, [-x for x in right_data], color=self.palette[1], alpha=0.8, label='Right')
-        ax.set_yticks(y_pos)
-        ax.set_yticklabels(labels)
-        ax.axvline(0, color='#8B7355', linewidth=2)
-        ax.legend()
-        return ax
+    def plot_grid(self, data: ArrayLike, ax: Axes | None = None) -> Axes:
+        """Lay values out as a symmetrical grid of pastel, framed cells.
 
-    def plot_grid(self, data_matrix, ax=None):
-        if ax is None:
-            fig, ax = plt.subplots(figsize=(10, 10))
-        self.apply_style()
+        Args:
+            data: Values, one per cell, laid out row-major into a square grid.
+            ax: Existing axes to draw on, or ``None`` to create a styled figure.
 
-        n_items = len(data_matrix)
-        grid_size = int(np.ceil(np.sqrt(n_items)))
-
-        for i, value in enumerate(data_matrix):
-            row = i // grid_size
-            col = i % grid_size
-            color = self.palette[i % len(self.palette)]
-            rect = plt.Rectangle((col, grid_size - row - 1), 1, 1,
-                                facecolor=color, edgecolor='#8B7355', linewidth=2)
-            ax.add_patch(rect)
-
-        ax.set_xlim(0, grid_size)
-        ax.set_ylim(0, grid_size)
-        ax.set_aspect('equal')
-        ax.axis('off')
-        return ax
+        Returns:
+            The axes the chart was drawn on.
+        """
+        values = np.asarray(data, dtype=float)
+        grid_size = int(np.ceil(np.sqrt(len(values)))) or 1
+        with self._target(ax, figsize=(10.0, 10.0)) as target:
+            for i in range(len(values)):
+                row, col = divmod(i, grid_size)
+                target.add_patch(
+                    Rectangle(
+                        (col, grid_size - row - 1),
+                        1,
+                        1,
+                        facecolor=self.palette[i % len(self.palette)],
+                        edgecolor=self.foreground,
+                        linewidth=2,
+                    )
+                )
+            target.set_xlim(0, grid_size)
+            target.set_ylim(0, grid_size)
+            target.set_aspect("equal")
+            target.axis("off")
+            return target
