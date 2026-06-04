@@ -1,4 +1,7 @@
 # cinestyle
+If you just want to use the library the easiest way it just to install the official PyPi release (via pip)
+
+pip install cinestyle
 
 [![CI](https://github.com/Burton-David/cinematic-matplotlib/actions/workflows/ci.yml/badge.svg)](https://github.com/Burton-David/cinematic-matplotlib/actions/workflows/ci.yml)
 ![Python](https://img.shields.io/badge/python-3.10%2B-blue.svg)
