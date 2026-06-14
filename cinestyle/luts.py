@@ -97,7 +97,7 @@ class Look:
         if data is None:
             return image
         rgba = image.cmap(image.norm(data)) if data.ndim == 2 else np.asarray(data)
-        image.set_data(self.apply(rgba))
+        image.set_data(self.apply(np.asarray(rgba, dtype=float)))
         return image
 
     def to_cube(self, path: str | Path, size: int = 33) -> Path:

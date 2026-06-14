@@ -18,13 +18,24 @@ from __future__ import annotations
 import contextlib
 from collections.abc import Mapping
 from pathlib import Path
-from typing import Any, TypeVar
+from typing import Any, TypeVar, cast
 
 import matplotlib as mpl
 import matplotlib.style as mstyle
 from cycler import Cycler
 
 T = TypeVar("T", bound="RcStyle")
+
+
+def _dynamic_rc() -> Any:
+    """``mpl.rcParams`` typed loosely for dynamic-key access.
+
+    RcParams is a ``MutableMapping[str, Any]`` at run time, but its type narrows
+    keys to a Literal of every known setting. We read and write keys taken from a
+    dynamic dict, so treat it as the plain mapping it is rather than fight the
+    Literal.
+    """
+    return mpl.rcParams
 
 
 def _strip_hash(color: str) -> str:
@@ -83,7 +94,7 @@ def write_matplotlibrc(rc: Mapping[str, Any], path: str | Path) -> Path:
 def read_matplotlibrc(path: str | Path) -> dict[str, Any]:
     """Parse a matplotlibrc file into a plain rcParams dict (file keys only)."""
     params = mpl.rc_params_from_file(str(path), use_default_template=False)
-    return dict(params)
+    return {str(key): value for key, value in params.items()}
 
 
 class RcStyle:
@@ -111,7 +122,7 @@ class RcStyle:
             ...     fig, ax = plt.subplots()
             ...     ax.plot(x, y)
         """
-        return mpl.rc_context(self.as_rc())
+        return mpl.rc_context(cast("Any", self.as_rc()))
 
     @property
     def _snapshot(self) -> dict[str, Any]:
@@ -125,7 +136,7 @@ class RcStyle:
         """Record the current value of every rcParam this style will change."""
         snap = self._snapshot
         for key in self.as_rc():
-            snap.setdefault(key, mpl.rcParams[key])
+            snap.setdefault(key, _dynamic_rc()[key])
 
     def apply(self: T) -> T:
         """Apply the style to global rcParams, remembering the prior values.
@@ -134,14 +145,14 @@ class RcStyle:
         pair this with :meth:`restore` to undo it.
         """
         self.save_defaults()
-        mpl.rcParams.update(self.as_rc())
+        _dynamic_rc().update(self.as_rc())
         return self
 
     def restore(self) -> None:
         """Undo a previous :meth:`apply`, restoring the saved rcParams."""
         snap = self._snapshot
         if snap:
-            mpl.rcParams.update(snap)
+            _dynamic_rc().update(snap)
             snap.clear()
 
     def apply_style(self: T) -> T:

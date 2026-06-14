@@ -18,7 +18,7 @@ def _hex(color: object) -> str:
 
 def test_catalog_themes() -> None:
     names = list_themes()
-    assert len(names) == 24
+    assert len(names) == 28
     assert {"noir", "ghibli", "wes_anderson", "blade_runner", "star_wars"} <= set(names)
     assert {"matrix", "dune", "fury_road", "kill_bill", "in_the_mood"} <= set(names)
     assert {"sin_city", "akira", "the_fall"} <= set(names)
@@ -31,6 +31,36 @@ def test_catalog_themes() -> None:
         "blade_runner_2049",
         "her",
     } <= set(names)
+    # The four subject themes, named for their films.
+    assert {
+        "margin_call",
+        "there_will_be_blood",
+        "the_revenant",
+        "raiders",
+    } <= set(names)
+
+
+def test_subject_word_aliases_resolve() -> None:
+    pairs = {
+        "terminal": "margin_call",
+        "petroleum": "there_will_be_blood",
+        "altitude": "the_revenant",
+        "atlas": "raiders",
+    }
+    for alias, canonical in pairs.items():
+        assert get_theme(alias) is get_theme(canonical)
+    # Aliases work through the high-level entry points too.
+    with cs.theme("terminal"):
+        assert mpl.rcParams["figure.facecolor"]
+
+
+def test_subject_themes_have_motion_and_safe_variant() -> None:
+    # The handoff allows a theme's categorical palette to be safe by way of its
+    # accessible() variant; assert that holds and that each carries a motion cue.
+    for name in ("margin_call", "there_will_be_blood", "the_revenant", "raiders"):
+        theme = get_theme(name)
+        assert theme.motion in {"ticker", "flowing", "ascending", "map_fill"}
+        assert cs.check_accessibility(theme.accessible().palette).safe
 
 
 def test_get_theme_unknown_raises() -> None:
@@ -66,7 +96,7 @@ def test_theme_font_is_bundled_or_generic(name: str) -> None:
 
 def test_register_adds_styles_and_colormaps() -> None:
     names = cs.register()
-    assert len(names) == 24
+    assert len(names) == 28
     assert all(n in plt.style.available for n in names)
     assert "cinestyle:dune" in mpl.colormaps
     assert "cinestyle:dune_div" in mpl.colormaps

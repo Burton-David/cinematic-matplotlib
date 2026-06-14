@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import pytest
 
-from cinestyle import accessible_variant, check_accessibility
+from cinestyle import accessible_variant, check_accessibility, get_theme, list_themes
 from cinestyle.accessibility import (
     OKABE_ITO,
     contrast_ratio,
@@ -54,3 +54,11 @@ def test_low_contrast_against_background_flagged() -> None:
     # A near-black series on a black background fails non-text contrast.
     report = check_accessibility(["#111111", "#F5D300"], background="#000000")
     assert 0 in report.low_contrast_indices
+
+
+@pytest.mark.parametrize("name", list_themes())
+def test_every_theme_has_a_colorblind_safe_variant(name: str) -> None:
+    # The mood-faithful palettes are not all CVD-safe by themselves; the contract
+    # is that accessible() always repairs them to a safe set.
+    safe = get_theme(name).accessible().palette
+    assert check_accessibility(safe).safe

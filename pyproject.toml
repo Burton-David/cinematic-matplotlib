@@ -4,14 +4,24 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "cinestyle"
-version = "0.2.0"
-description = "Cinematic matplotlib styles inspired by iconic films, plus a reusable-brand API"
+version = "3.0.0"
+description = "Cinematic, publication-grade matplotlib: film-inspired themes, chart-idiom builders, an animation engine, and accessibility tooling"
 readme = "README.md"
 requires-python = ">=3.10"
 license = "MIT"
 license-files = ["LICENSE"]
 authors = [{ name = "David Burton", email = "david@databurton.com" }]
-keywords = ["matplotlib", "visualization", "styling", "theme", "cinematic", "branding"]
+keywords = [
+    "matplotlib",
+    "visualization",
+    "styling",
+    "theme",
+    "cinematic",
+    "branding",
+    "animation",
+    "charts",
+    "accessibility",
+]
 classifiers = [
     "Development Status :: 4 - Beta",
     "Framework :: Matplotlib",
@@ -36,6 +46,10 @@ a11y = ["daltonlens>=0.1.5"]
 luts = ["colour-science>=0.4.4"]
 plotly = ["plotly>=5.0", "kaleido>=0.2"]
 altair = ["altair>=5.5", "vl-convert-python>=1.0"]
+# Heavier idiom dependencies, kept out of the core install.
+geo = ["geopandas>=0.14", "shapely>=2.0", "mapclassify>=2.5"]
+flow = ["pandas>=2.0"]
+anim = ["imageio-ffmpeg>=0.4"]
 dev = [
     "black==24.10.0",
     "ruff==0.6.9",
@@ -49,6 +63,10 @@ dev = [
     "altair>=5.5",
     "vl-convert-python>=1.0",
     "pandas>=2.0",
+    "geopandas>=0.14",
+    "shapely>=2.0",
+    "mapclassify>=2.5",
+    "imageio-ffmpeg>=0.4",
 ]
 
 [project.urls]
@@ -97,6 +115,10 @@ module = [
     "colorspacious.*",
     "plotly.*",
     "altair.*",
+    "geopandas.*",
+    "shapely.*",
+    "mapclassify.*",
+    "imageio_ffmpeg.*",
 ]
 ignore_missing_imports = true
 

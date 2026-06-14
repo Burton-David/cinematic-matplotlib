@@ -1,0 +1,17 @@
+# Mirrors the pinned versions in pyproject.toml's [dev] extra, so a local hook
+# run and CI agree. Install with: pip install pre-commit && pre-commit install
+repos:
+  - repo: https://github.com/psf/black-pre-commit-mirror
+    rev: 24.10.0
+    hooks:
+      - id: black
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.6.9
+    hooks:
+      - id: ruff
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.11.2
+    hooks:
+      - id: mypy
+        files: ^cinestyle/
+        additional_dependencies: [numpy]

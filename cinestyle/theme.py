@@ -49,6 +49,7 @@ class Theme(RcStyle):
         div_pair: Two colors for the diverging colormap (default: first and last hero).
         glow: Suggested default glow intensity for :func:`cinestyle.add_glow`.
         look: Name of the film-look LUT associated with this theme, if any.
+        motion: Default animation motion preset (see :mod:`cinestyle.anim`), if any.
         film: Which film / color grade this theme targets (documentation).
         note: Provenance of the palette (documentation).
     """
@@ -70,6 +71,7 @@ class Theme(RcStyle):
     div_pair: tuple[str, str] | None = None
     glow: float = 0.0
     look: str | None = None
+    motion: str | None = None
     film: str = ""
     note: str = ""
     extra_rc: Mapping[str, Any] = field(default_factory=dict)
@@ -265,6 +267,7 @@ class Theme(RcStyle):
             div_pair=self.div_pair,
             glow=self.glow,
             look=self.look,
+            motion=self.motion,
             film=self.film,
             note=f"Colorblind-safe variant of {self.name}.",
         )
