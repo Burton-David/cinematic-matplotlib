@@ -32,3 +32,5 @@ jobs:
         run: pytest
       - name: Gallery smoke
         run: python scripts/generate_gallery.py -o "${RUNNER_TEMP}/gallery"
+      - name: v3 gallery smoke
+        run: python scripts/generate_v3_gallery.py -o "${RUNNER_TEMP}/v3-gallery"

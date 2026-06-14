@@ -68,35 +68,47 @@ def glow_artist(
 
 
 def add_glow(
-    ax: Axes | None = None,
+    target: Axes | Artist | None = None,
+    intensity: float = 0.4,
+    layers: int = 5,
     *,
-    intensity: float = 0.6,
-    layers: int = 6,
     lines: bool = True,
     patches: bool = False,
-) -> Axes:
-    """Apply a glow to the artists already drawn on *ax*.
+    color: str | None = None,
+) -> Axes | Artist:
+    """Add a cinematic glow, to a whole axes or to a single artist.
 
-    Call after plotting. By default it glows line plots (the most effective
-    target); enable ``patches`` to glow bars and filled areas too.
+    Call after plotting. Passed an axes (or nothing, meaning the current axes)
+    it glows the artists already drawn on it: line plots by default, bars and
+    filled areas too if ``patches`` is set. Passed one artist (a line, patch or
+    collection) it glows just that artist, which is how you spotlight a single
+    hero element.
 
     Args:
-        ax: Target axes; defaults to the current axes.
+        target: An axes, a single artist, or ``None`` for the current axes.
         intensity: Glow strength in roughly [0, 1].
-        layers: Number of halo layers per artist.
-        lines: Glow ``Line2D`` artists.
-        patches: Glow ``Patch`` artists (bars, areas).
+        layers: Number of halo layers per artist; more is smoother but slower.
+        lines: When glowing an axes, glow its ``Line2D`` artists.
+        patches: When glowing an axes, glow its ``Patch`` artists (bars, areas).
+        color: Override the glow color (defaults to each artist's own color).
 
     Returns:
-        The axes, for chaining.
+        The same object you passed (the axes, or the artist), for chaining.
     """
-    ax = ax or plt.gca()
+    if isinstance(target, Collection):
+        glow_collection(target, intensity=intensity, layers=layers)
+        return target
+    if isinstance(target, Artist) and not isinstance(target, Axes):
+        glow_artist(target, intensity=intensity, layers=layers, color=color)
+        return target
+
+    ax = target or plt.gca()
     if lines:
         for line in ax.get_lines():
-            glow_artist(line, intensity=intensity, layers=layers)
+            glow_artist(line, intensity=intensity, layers=layers, color=color)
     if patches:
         for patch in ax.patches:
-            glow_artist(patch, intensity=intensity, layers=layers)
+            glow_artist(patch, intensity=intensity, layers=layers, color=color)
     return ax
 
 

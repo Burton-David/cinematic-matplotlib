@@ -45,11 +45,21 @@ from .fonts import available_fonts, register_fonts
 from .luts import Look
 from .registry import (
     LOOKS,
+    THEME_ALIASES,
     THEMES,
     get_look,
     get_theme,
     list_themes,
     register,
+)
+from .scaffold import (
+    currency,
+    despine,
+    finish,
+    lint_text,
+    save,
+    thousands,
+    value_labels,
 )
 from .theme import Theme
 
@@ -68,6 +78,15 @@ def use(name: str) -> Any:
     Example:
         >>> with cinestyle.use("matrix"):
         ...     ...
+    """
+    return get_theme(name).use()
+
+
+def theme(name: str) -> Any:
+    """Alias for :func:`use`: a scoped context manager applying theme *name*.
+
+    Reads naturally at the call site (``with cinestyle.theme("terminal"): ...``)
+    and accepts the subject-word aliases that :func:`get_theme` resolves.
     """
     return get_theme(name).use()
 
@@ -117,6 +136,7 @@ __all__ = [
     "LOOKS",
     "Look",
     "THEMES",
+    "THEME_ALIASES",
     "Theme",
     "__version__",
     "accessible_variant",
@@ -127,19 +147,27 @@ __all__ = [
     "check_accessibility",
     "color",
     "contrast_ratio",
+    "currency",
     "define_brand",
+    "despine",
+    "finish",
     "get_look",
     "get_theme",
     "glow_artist",
+    "lint_text",
     "list_themes",
     "register",
     "register_altair",
     "register_fonts",
     "register_plotly",
     "repair",
+    "save",
+    "theme",
+    "thousands",
     "to_altair_theme",
     "to_plotly_template",
     "use",
     "use_altair",
     "use_plotly",
+    "value_labels",
 ]

@@ -499,15 +499,123 @@ _THEME_LIST: list[Theme] = [
         film="Her (Spike Jonze, 2013)",
         note="Warm corals and peach on cream, blue suppressed; colorist notes.",
     ),
+    # Subject themes: the same engine pointed at a kind of data rather than a
+    # film's mood, but each still drawn from a film so the catalog stays in one
+    # world. The convenience aliases below (terminal, petroleum, altitude, atlas)
+    # name them by subject; the palette and ramps are tuned for the question each
+    # subject asks (P&L, oil, elevation, choropleths).
+    Theme(
+        name="margin_call",
+        # Manhattan trading floor at night: monitor amber over cool corporate
+        # steel and city-light lavender. A saturated red is deliberately absent
+        # from the cycle, since the desk reads red as "down" and the P&L scale
+        # below owns that meaning; up-green is likewise reserved for the scale.
+        heroes=("#F0A830", "#46C7D6", "#6E97C4", "#B79CE6", "#9AA7B2"),
+        cycle_length=5,
+        background="#070A0E",
+        surface="#0E141A",
+        foreground="#F0A830",
+        muted="#22303A",
+        grid=True,
+        font_family="Share Tech Mono",
+        glow=0.2,
+        seq_anchor="#F0A830",
+        # Green-up / red-down is the desk convention and the one place this theme
+        # uses a red-green axis on purpose: it encodes a signed quantity (gain vs
+        # loss) where position, not hue alone, carries the sign for a CVD reader.
+        div_pair=("#E5484D", "#2FA968"),
+        motion="ticker",
+        film="Margin Call (J. C. Chandor, 2011)",
+        note="Night-floor monitor amber on Manhattan blue-black; red-down/green-up.",
+    ),
+    Theme(
+        name="there_will_be_blood",
+        # Elswit's grade: oil-black, derrick-fire orange, lamp gold, dried blood,
+        # dust ochre, scrub olive. No cool accent in the cycle on purpose; the
+        # film lives in the warm half of the wheel, and the dusk-sky blue it does
+        # own is spent on the diverging scale instead.
+        heroes=("#D6541F", "#E0A21E", "#9E2B25", "#C2873B", "#7C7A4E", "#A65E3B"),
+        cycle_length=6,
+        background="#0A0705",
+        surface="#130D08",
+        foreground="#E8C887",
+        muted="#2C2014",
+        grid=False,
+        font_family="Oswald",
+        glow=0.15,
+        seq_anchor="#E0A21E",
+        # Cold dusk sky vs derrick fire: the one real hot/cold axis in the film,
+        # which is also the gain/loss contrast a commodities chart wants.
+        div_pair=("#2E5A7A", "#D6541F"),
+        motion="flowing",
+        film="There Will Be Blood (Paul Thomas Anderson, 2007)",
+        note="Oil-black and lamp-gold with derrick-fire orange; warm by construction.",
+    ),
+    Theme(
+        # Glacier light theme: pale, high-key, cold, in Lubezki's natural light.
+        # The blood red is a hero, so it is in the cycle, but it sits last:
+        # reserved for the one high-stakes zone a chart calls out, the way the
+        # film spends red only on blood in the snow.
+        name="the_revenant",
+        heroes=("#3E7CA8", "#7FB6CE", "#1E4258", "#3F5E50", "#B5232E"),
+        cycle_length=5,
+        background="#EAF1F5",
+        surface="#F4F8FA",
+        foreground="#1C2A33",
+        muted="#C0D2DC",
+        grid=True,
+        font_family="Jost",
+        seq_anchor="#3E7CA8",
+        div_pair=("#1E4258", "#B5232E"),
+        motion="ascending",
+        film="The Revenant (Alejandro G. Inarritu, 2015)",
+        note="Glacier blues and overcast steel; blood-red-on-snow held in reserve.",
+    ),
+    Theme(
+        name="raiders",
+        # The parchment travel-map palette: khaki, desert clay, sand ochre,
+        # jungle green, leather brown, and the dashed route-line red. Low chroma
+        # throughout so a filled map reads as terrain, not signage.
+        heroes=("#8A8A4C", "#BE6B43", "#CE9B43", "#4E7C56", "#6E4A2C", "#B23A2E"),
+        cycle_length=6,
+        background="#EDE3CB",
+        surface="#F1E9D4",
+        foreground="#3A2C18",
+        muted="#CFBE98",
+        grid=True,
+        font_family="EB Garamond",
+        seq_anchor="#B07A2E",
+        # Teal-to-terracotta is the cartographer's diverging (BrBG lineage), tuned
+        # to read as a balanced land scale when poured into choropleth polygons;
+        # the film's own greens and clays sit on the same axis.
+        div_pair=("#3F7E7C", "#BE6B43"),
+        motion="map_fill",
+        film="Raiders of the Lost Ark (Steven Spielberg, 1981)",
+        note="Parchment and ochre land tones with the route-line red; map-tuned ramps.",
+    ),
 ]
+
+# Subject-word aliases for the film themes designed around a kind of data, so a
+# pipeline can ask for the role (``"terminal"``) instead of remembering the film.
+THEME_ALIASES: dict[str, str] = {
+    "terminal": "margin_call",
+    "petroleum": "there_will_be_blood",
+    "altitude": "the_revenant",
+    "atlas": "raiders",
+}
 
 THEMES: dict[str, Theme] = {theme.name: theme for theme in _THEME_LIST}
 
 
 def get_theme(name: str) -> Theme:
-    """Return a theme by name (e.g. ``"blade_runner"``)."""
+    """Return a theme by name (e.g. ``"blade_runner"``).
+
+    Subject-word aliases (``"terminal"``, ``"petroleum"``, ``"altitude"``,
+    ``"atlas"``) resolve to the film theme designed for that kind of data.
+    """
+    canonical = THEME_ALIASES.get(name, name)
     try:
-        return THEMES[name]
+        return THEMES[canonical]
     except KeyError:
         raise KeyError(
             f"Unknown theme {name!r}. Available: {', '.join(sorted(THEMES))}"

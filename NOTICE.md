@@ -27,6 +27,10 @@ here as a courtesy and, where a license requires it, as attribution.
   Moonlight, Her** themes: constructed from each film's documented color
   identity (including colorist interviews). Exact hex values are editorial
   interpretations.
+- **Margin Call, There Will Be Blood, The Revenant, Raiders of the Lost Ark**
+  (the subject themes): editorial interpretations of each film's documented grade,
+  re-derived in a perceptual color space and tuned for the kind of data the theme
+  serves (P&L, energy, elevation, choropleths).
 
 ## Bundled fonts
 
