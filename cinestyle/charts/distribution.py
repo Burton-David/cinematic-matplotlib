@@ -13,7 +13,7 @@ import numpy as np
 from matplotlib.axes import Axes
 from matplotlib.collections import PolyCollection
 from matplotlib.colors import Colormap
-from numpy.typing import ArrayLike
+from numpy.typing import ArrayLike, NDArray
 
 from . import _base
 
@@ -81,7 +81,7 @@ def beeswarm(
     return ax
 
 
-def _swarm(vals: np.ndarray, *, span: float) -> np.ndarray:
+def _swarm(vals: NDArray[np.float64], *, span: float) -> NDArray[np.float64]:
     vmin, vmax = float(vals.min()), float(vals.max())
     if vmax == vmin:
         return np.zeros(vals.size)

@@ -25,9 +25,9 @@ def _smooth(values: NDArray[np.float64], window: int) -> NDArray[np.float64]:
         return values
     kernel = np.ones(window) / window
     padded = np.pad(values, window // 2, mode="edge")
-    return np.convolve(padded, kernel, mode="same")[
-        window // 2 : window // 2 + values.size
-    ]
+    smoothed = np.convolve(padded, kernel, mode="same")
+    trimmed = smoothed[window // 2 : window // 2 + values.size]
+    return np.asarray(trimmed, dtype=np.float64)
 
 
 def _detect_peaks(heights: NDArray[np.float64], limit: int) -> list[int]:
