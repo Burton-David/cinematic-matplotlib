@@ -4,6 +4,10 @@ on:
   push:
     branches: [main]
   pull_request:
+  # A weekly run catches breakage from new matplotlib/numpy releases even when
+  # nobody has pushed; the dependencies only set floors, so main can rot silently.
+  schedule:
+    - cron: "17 6 * * 1"
 
 jobs:
   test:
