@@ -1,7 +1,4 @@
 # cinestyle
-If you just want to use the library the easiest way it just to install the official PyPi release (via pip)
-
-pip install cinestyle
 
 [![CI](https://github.com/Burton-David/cinematic-matplotlib/actions/workflows/ci.yml/badge.svg)](https://github.com/Burton-David/cinematic-matplotlib/actions/workflows/ci.yml)
 ![Python](https://img.shields.io/badge/python-3.10%2B-blue.svg)
@@ -22,7 +19,7 @@ The signature `mountain` idiom: a topographic silhouette that still reads its
 y-axis honestly. The themes each plot data from their own film; same data,
 cinematic finish:
 
-![Twenty-eight film looks, one per frame](https://raw.githubusercontent.com/Burton-David/cinematic-matplotlib/v0.2.0/images/cinestyle_reel.gif)
+![Twenty-eight film looks, one per frame](https://raw.githubusercontent.com/Burton-David/cinematic-matplotlib/main/images/cinestyle_reel.gif)
 
 ## Why this exists
 
@@ -53,6 +50,8 @@ one chart in their README. cinestyle is built differently:
   film-look LUTs you can apply to image plots and export as `.cube`.
 
 ## Install
+
+The release is on [PyPI](https://pypi.org/project/cinestyle/):
 
 ```bash
 pip install cinestyle
@@ -174,7 +173,7 @@ fig.update_layout(template="cinestyle-blade_runner")   # or use_plotly("dune")
 cinestyle.register_altair(enable="dune")               # enables the theme
 ```
 
-See [docs/gallery.md](https://github.com/Burton-David/cinematic-matplotlib/blob/v0.2.0/docs/gallery.md) for the same theme rendered across all
+See [docs/gallery.md](https://github.com/Burton-David/cinematic-matplotlib/blob/main/docs/gallery.md) for the same theme rendered across all
 three backends side by side.
 
 ## Gallery
@@ -185,18 +184,18 @@ data by `python scripts/generate_gallery.py` (add `--reel` to rebuild the GIF).
 
 | | |
 |---|---|
-| ![noir](https://raw.githubusercontent.com/Burton-David/cinematic-matplotlib/v0.2.0/images/noir.png) | ![ghibli](https://raw.githubusercontent.com/Burton-David/cinematic-matplotlib/v0.2.0/images/ghibli.png) |
-| ![wes_anderson](https://raw.githubusercontent.com/Burton-David/cinematic-matplotlib/v0.2.0/images/wes_anderson.png) | ![blade_runner](https://raw.githubusercontent.com/Burton-David/cinematic-matplotlib/v0.2.0/images/blade_runner.png) |
-| ![star_wars](https://raw.githubusercontent.com/Burton-David/cinematic-matplotlib/v0.2.0/images/star_wars.png) | ![matrix](https://raw.githubusercontent.com/Burton-David/cinematic-matplotlib/v0.2.0/images/matrix.png) |
-| ![dune](https://raw.githubusercontent.com/Burton-David/cinematic-matplotlib/v0.2.0/images/dune.png) | ![fury_road](https://raw.githubusercontent.com/Burton-David/cinematic-matplotlib/v0.2.0/images/fury_road.png) |
-| ![kill_bill](https://raw.githubusercontent.com/Burton-David/cinematic-matplotlib/v0.2.0/images/kill_bill.png) | ![in_the_mood](https://raw.githubusercontent.com/Burton-David/cinematic-matplotlib/v0.2.0/images/in_the_mood.png) |
-| ![sin_city](https://raw.githubusercontent.com/Burton-David/cinematic-matplotlib/v0.2.0/images/sin_city.png) | ![akira](https://raw.githubusercontent.com/Burton-David/cinematic-matplotlib/v0.2.0/images/akira.png) |
-| ![the_fall](https://raw.githubusercontent.com/Burton-David/cinematic-matplotlib/v0.2.0/images/the_fall.png) | ![tron](https://raw.githubusercontent.com/Burton-David/cinematic-matplotlib/v0.2.0/images/tron.png) |
-| ![amelie](https://raw.githubusercontent.com/Burton-David/cinematic-matplotlib/v0.2.0/images/amelie.png) | ![the_shining](https://raw.githubusercontent.com/Burton-David/cinematic-matplotlib/v0.2.0/images/the_shining.png) |
-| ![drive](https://raw.githubusercontent.com/Burton-David/cinematic-matplotlib/v0.2.0/images/drive.png) | ![grand_budapest](https://raw.githubusercontent.com/Burton-David/cinematic-matplotlib/v0.2.0/images/grand_budapest.png) |
-| ![nolan](https://raw.githubusercontent.com/Burton-David/cinematic-matplotlib/v0.2.0/images/nolan.png) | ![hero](https://raw.githubusercontent.com/Burton-David/cinematic-matplotlib/v0.2.0/images/hero.png) |
-| ![suspiria](https://raw.githubusercontent.com/Burton-David/cinematic-matplotlib/v0.2.0/images/suspiria.png) | ![moonlight](https://raw.githubusercontent.com/Burton-David/cinematic-matplotlib/v0.2.0/images/moonlight.png) |
-| ![blade_runner_2049](https://raw.githubusercontent.com/Burton-David/cinematic-matplotlib/v0.2.0/images/blade_runner_2049.png) | ![her](https://raw.githubusercontent.com/Burton-David/cinematic-matplotlib/v0.2.0/images/her.png) |
+| ![noir](https://raw.githubusercontent.com/Burton-David/cinematic-matplotlib/main/images/noir.png) | ![ghibli](https://raw.githubusercontent.com/Burton-David/cinematic-matplotlib/main/images/ghibli.png) |
+| ![wes_anderson](https://raw.githubusercontent.com/Burton-David/cinematic-matplotlib/main/images/wes_anderson.png) | ![blade_runner](https://raw.githubusercontent.com/Burton-David/cinematic-matplotlib/main/images/blade_runner.png) |
+| ![star_wars](https://raw.githubusercontent.com/Burton-David/cinematic-matplotlib/main/images/star_wars.png) | ![matrix](https://raw.githubusercontent.com/Burton-David/cinematic-matplotlib/main/images/matrix.png) |
+| ![dune](https://raw.githubusercontent.com/Burton-David/cinematic-matplotlib/main/images/dune.png) | ![fury_road](https://raw.githubusercontent.com/Burton-David/cinematic-matplotlib/main/images/fury_road.png) |
+| ![kill_bill](https://raw.githubusercontent.com/Burton-David/cinematic-matplotlib/main/images/kill_bill.png) | ![in_the_mood](https://raw.githubusercontent.com/Burton-David/cinematic-matplotlib/main/images/in_the_mood.png) |
+| ![sin_city](https://raw.githubusercontent.com/Burton-David/cinematic-matplotlib/main/images/sin_city.png) | ![akira](https://raw.githubusercontent.com/Burton-David/cinematic-matplotlib/main/images/akira.png) |
+| ![the_fall](https://raw.githubusercontent.com/Burton-David/cinematic-matplotlib/main/images/the_fall.png) | ![tron](https://raw.githubusercontent.com/Burton-David/cinematic-matplotlib/main/images/tron.png) |
+| ![amelie](https://raw.githubusercontent.com/Burton-David/cinematic-matplotlib/main/images/amelie.png) | ![the_shining](https://raw.githubusercontent.com/Burton-David/cinematic-matplotlib/main/images/the_shining.png) |
+| ![drive](https://raw.githubusercontent.com/Burton-David/cinematic-matplotlib/main/images/drive.png) | ![grand_budapest](https://raw.githubusercontent.com/Burton-David/cinematic-matplotlib/main/images/grand_budapest.png) |
+| ![nolan](https://raw.githubusercontent.com/Burton-David/cinematic-matplotlib/main/images/nolan.png) | ![hero](https://raw.githubusercontent.com/Burton-David/cinematic-matplotlib/main/images/hero.png) |
+| ![suspiria](https://raw.githubusercontent.com/Burton-David/cinematic-matplotlib/main/images/suspiria.png) | ![moonlight](https://raw.githubusercontent.com/Burton-David/cinematic-matplotlib/main/images/moonlight.png) |
+| ![blade_runner_2049](https://raw.githubusercontent.com/Burton-David/cinematic-matplotlib/main/images/blade_runner_2049.png) | ![her](https://raw.githubusercontent.com/Burton-David/cinematic-matplotlib/main/images/her.png) |
 
 The four subject themes, each doing the job it was designed for, via
 `python scripts/generate_v3_gallery.py` (add `--reveal` for the gif):
@@ -271,7 +270,7 @@ cinestyle.audit(["#D62728", "#2CA02C"])      # check your own colors
 safe = cinestyle.repair("blade_runner")      # a colorblind-safe version
 ```
 
-![accessibility](https://raw.githubusercontent.com/Burton-David/cinematic-matplotlib/v0.2.0/images/accessibility.png)
+![accessibility](https://raw.githubusercontent.com/Burton-David/cinematic-matplotlib/main/images/accessibility.png)
 
 Checks simulate the palette under each color-vision deficiency and flag any pair
 that *collapses* (CIEDE2000), plus WCAG non-text contrast against the background.
@@ -325,12 +324,12 @@ animation renders to a gif.
 
 cinestyle is an independent, inspired-by tribute and is not affiliated with or
 endorsed by any rights holder; film titles are trademarks of their owners. See
-[NOTICE.md](https://github.com/Burton-David/cinematic-matplotlib/blob/v0.2.0/NOTICE.md) for palette sources (incl. the `wesanderson` and `ghibli`
+[NOTICE.md](https://github.com/Burton-David/cinematic-matplotlib/blob/main/NOTICE.md) for palette sources (incl. the `wesanderson` and `ghibli`
 palette projects) and bundled-font licenses.
 
 ## License
 
-MIT. See [LICENSE](https://github.com/Burton-David/cinematic-matplotlib/blob/v0.2.0/LICENSE).
+MIT. See [LICENSE](https://github.com/Burton-David/cinematic-matplotlib/blob/main/LICENSE).
 
 ## Author
 
